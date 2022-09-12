@@ -104,14 +104,8 @@
     }
   },
   "variables": {
-    "uri_sysmonWindowsParserPackTemplate": "https://raw.githubusercontent.com/AntiSyphon/asazlab/main/Monitoring/SysmonFullDeployment.json",
-    "uri_DeploySentinel": "https://raw.githubusercontent.com/AntiSyphon/asazlab/main/Sentinel2Go/azuredeploy.json",
-    "uri_collectWinDataSources": "https://raw.githubusercontent.com/AntiSyphon/asazlab/main/Sentinel2Go/templates/winDataSources.json",
-    "uri_azure_win10_ad": "https://raw.githubusercontent.com/AntiSyphon/asazlab/main/Win10-AD/azuredeploy.json",
-    "uri_azure_c2": "https://raw.githubusercontent.com/AntiSyphon/asazlab/main/C2/azuredeploy.json",
-    "uri_azure_monitoragents": "https://raw.githubusercontent.com/AntiSyphon/asazlab/main/MonitorAgents/windows.json",
-    "uri_dcrassociation": "https://raw.githubusercontent.com/AntiSyphon/asazlab/main/AssociateDCR/association.json",
-    "dataCollectionRuleName": "WindowsDCR",
+    "uri_azure_win10_ad": "https://raw.githubusercontent.com/AntiSyphon/asazlab/main/1-AD/azuredeploy.json",
+    "uri_azure_c2": "https://raw.githubusercontent.com/AntiSyphon/asazlab/main/2-C2/azuredeploy.json",
     "asadminusername": "asadmin",
     "asadminpassword": "asLabAdmin1!",
     "asnameprefix": "WS0",
@@ -125,150 +119,6 @@
     "asremoteaccessmode": "AllowPublicIP"
   },
   "resources": [
-    {
-      "name": "DeploySentinel",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2020-10-01",
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('uri_DeploySentinel')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "workspaceName": {
-            "value": "[variables('asworkspaceprefix')]"
-          },
-          "pricingTier": {
-            "value": "[parameters('pricingTier')]"
-          },
-          "dataRetention": {
-            "value": "[parameters('dataRetention')]"
-          },
-          "immediatePurgeDataOn30Days": {
-            "value": "[parameters('doimmediatePurgeDataOn30Days')]"
-          }
-        }
-      }
-    },
-    {
-      "type": "microsoft.insights/dataCollectionRules",
-      "apiVersion": "2021-04-01",
-      "dependsOn": ["DeploySentinel"],
-      "name": "[variables('dataCollectionRuleName')]",
-      "location": "[parameters('location')]",
-      "tags": {
-        "createdBy": "Sentinel"
-      },
-      "properties": {
-        "dataSources": {
-          "windowsEventLogs": [
-            {
-              "name": "eventLogsDataSource",
-              "scheduledTransferPeriod": "PT5M",
-              "streams": [
-                "Microsoft-SecurityEvent"
-              ],
-              "xPathQueries": [
-                "Security!*[System[(EventID=5136 or EventID=5139)]]",
-                "Security!*[System[(EventID=5137)]]",
-                "Security!*[System[(EventID=5141)]]",
-                "Security!*[System[(EventID=4662 or EventID=4661)]]",
-                "Security!*[System[(EventID=4768 or EventID=4769)]]",
-                "Security!*[System[(EventID=4688)]]",
-                "Security!*[System[(EventID=4660)]]",
-                "Security!(*[System[EventID=4656]] and ((*[EventData[Data[@Name='ObjectType']='File']]))) or (*[System[EventID=4663]] and ((*[EventData[Data[@Name='ObjectType']='File']]))) or (*[System[EventID=4661]] and ((*[EventData[Data[@Name='ObjectType']='SAM']])))",
-                "Security!*[System[(EventID=4670)]]",
-                "Security!*[System[(EventID=4624 or EventID=4778 or EventID=4964)]]",
-                "Security!*[System[(EventID=5140 or EventID=5145)]]",
-                "Security!*[System[(EventID=5154 or EventID=5159 or EventID=5155 or EventID=5158 or EventID=5156 or EventID=5157 or EventID=5031)]]",
-                "Security!(*[System[EventID=4656]] and ((*[EventData[Data[@Name='ObjectType']='Process']]))) or (*[System[EventID=4663]] and ((*[EventData[Data[@Name='ObjectType']='Process']])))",
-                "Security!*[System[(EventID=4689)]]",
-                "Security!*[System[(EventID=4698)]]",
-                "Security!*[System[(EventID=4701 or EventID=4700 or EventID=4702)]]",
-                "Security!*[System[(EventID=4697)]]",
-                "Security!*[System[(EventID=4725 or EventID=4722 or EventID=4717 or EventID=4740 or EventID=4738 or EventID=4781 or EventID=4767 or EventID=4718)]]",
-                "Security!*[System[(EventID=4624 or EventID=4625 or EventID=4648)]]",
-                "Security!*[System[(EventID=4726)]]",
-                "Security!*[System[(EventID=4720)]]",
-                "Security!*[System[(EventID=4670 or EventID=4657)]]",
-                "Security!(*[System[EventID=4656]] and ((*[EventData[Data[@Name='ObjectType']='Key']]))) or (*[System[EventID=4663]] and ((*[EventData[Data[@Name='ObjectType']='Key']])))"
-              ]
-            }
-          ]
-        },
-        "destinations": {
-          "logAnalytics": [
-            {
-              "name": "WindowsEvents",
-              "workspaceId": "[reference('DeploySentinel').outputs.workspaceIdOutput.value]",
-              "workspaceResourceId": "[reference('DeploySentinel').outputs.workspaceResourceIdOutput.value]"
-            }
-          ]
-        },
-        "dataFlows": [
-          {
-            "streams": [
-              "Microsoft-SecurityEvent"
-            ],
-            "destinations": [
-              "WindowsEvents"
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "condition": "[not(empty(parameters('collectWinEventProviders')))]",
-      "name": "collectWinDataSources",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2020-10-01",
-      "dependsOn": [
-        "DeploySentinel"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('uri_collectWinDataSources')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "workspaceName": {
-            "value": "[reference('DeploySentinel').outputs.workspaceName.value]"
-          },
-          "winEventProviders": {
-            "value": "[parameters('collectWinEventProviders')]"
-          },
-          "location": {
-            "value": "[parameters('location')]"
-          }
-        }
-      }
-    },
-    {
-      "condition": "[parameters('doenablesysmonparsers')]",
-      "name": "deploySysmonWindowsParserPack",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2020-10-01",
-      "dependsOn": [
-        "DeploySentinel"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('uri_sysmonWindowsParserPackTemplate')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "workspaceName": {
-            "value": "[reference('DeploySentinel').outputs.workspaceName.value]"
-          },
-          "location": {
-            "value": "[parameters('location')]"
-          }
-        }
-      }
-    },
     {
       "name": "deployWinAD",
       "type": "Microsoft.Resources/deployments",
@@ -327,57 +177,6 @@
           },
           "location": {
             "value": "[parameters('location')]"
-          }
-        }
-      }
-    },
-    {
-      "name": "installAzureMonitorAgent",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2020-10-01",
-      "dependsOn": [
-        "DeploySentinel",
-        "deployWinAD"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('uri_azure_monitoragents')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "virtualMachines": {
-            "value": "[reference('deployWinAD').outputs.allWinVMsDeployed.value]"
-          },
-          "monitorAgent": {
-            "value": "Azure Monitor Agent"
-          }
-        }
-      }
-    },
-    {
-      "name": "associateWindowsDCR",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2020-10-01",
-      "dependsOn": [
-        "[resourceId('microsoft.insights/dataCollectionRules', variables('dataCollectionRuleName'))]",
-        "installAzureMonitorAgent"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('uri_dcrassociation')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "virtualMachines": {
-            "value": "[reference('deployWinAD').outputs.allWinVMsDeployed.value]"
-          },
-          "dataCollectionRuleId": {
-            "value": "[resourceId('microsoft.insights/dataCollectionRules', variables('dataCollectionRuleName'))]"
-          },
-          "dataCollectionRuleName": {
-            "value": "[variables('dataCollectionRuleName')]"
           }
         }
       }
