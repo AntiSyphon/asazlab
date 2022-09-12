@@ -55,26 +55,6 @@
         "description": "Size of the virtual machine. Reference: https://docs.microsoft.com/en-us/azure/virtual-machines/sizes-general"
       }
     },
-    "collectWinEventProviders": {
-      "type": "array",
-      "metadata": {
-        "description": "Do you want to configure your Log Analytics Workspace to collect Windows Event Logs from several pre-defined event providers?. Windows Security Auditing is not enabled through this option. It is enabled through the Data Connectors parameter."
-      },
-      "defaultValue": [
-        "System",
-        "Microsoft-Windows-Sysmon/Operational",
-        "Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational",
-        "Microsoft-Windows-Bits-Client/Operational",
-        "Microsoft-Windows-TerminalServices-LocalSessionManager/Operational",
-        "Directory Service",
-        "Microsoft-Windows-DNS-Client/Operational",
-        "Microsoft-Windows-Windows Firewall With Advanced Security/Firewall",
-        "Windows PowerShell",
-        "Microsoft-Windows-PowerShell/Operational",
-        "Microsoft-Windows-WMI-Activity/Operational",
-        "Microsoft-Windows-TaskScheduler/Operational"
-      ]
-    },
     "location": {
       "type": "string",
       "defaultValue": "[resourceGroup().location]",
