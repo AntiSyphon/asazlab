@@ -241,13 +241,6 @@
         "description": "Do you want to install Sysmon on the endpoint?"
       }
     },
-    "enableAADConnect": {
-      "type": "bool",
-      "metadata": {
-        "description": "Do you want to want download the AADConnect installer and get it ready to set up after the deployment?"
-      },
-      "defaultValue": false
-    },
     "_artifactsLocation": {
       "type": "string",
       "defaultValue": "https://raw.githubusercontent.com/OTRF/Blacksmith/master/",
@@ -316,7 +309,6 @@
     "sysmonInstallTemplateUri": "https://raw.githubusercontent.com/AntiSyphon/asazlab/1-AD/templates/sysmonInstall.json",
     "createADTemplateUri": "https://raw.githubusercontent.com/AntiSyphon/asazlab/1-AD/templates/createADForest.json",
     "joinDomainTemplateUri": "https://raw.githubusercontent.com/AntiSyphon/asazlab/1-AD/templates/joinDomain.json",
-    "installAADConnectTemplateUri": "https://raw.githubusercontent.com/AntiSyphon/asazlab/1-AD/templates/installAADConnect.json",
 
     // Custom Scripts
     "initialSettingsScript": "https://raw.githubusercontent.com/AntiSyphon/asazlab/1-AD/scripts/Set-Initial-Settings.ps1",
@@ -329,10 +321,9 @@
 
     // Powershell DSC Scripts
     "dscModules": "https://raw.githubusercontent.com/AntiSyphon/asazlab/1-AD/scripts/Install-DSC-Modules.ps1",
-    "createADForestScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/DesiredSateConfig/Create-AD.zip",
-    "joinDomainScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/DesiredSateConfig/Join-Domain.zip",
-    "installSysmonScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/DesiredSateConfig/Install-Sysmon.zip",
-    "installAADConnectScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/DesiredSateConfig/Install-AADConnect.zip",
+    "createADForestScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/DSC/Create-AD.zip",
+    "joinDomainScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/DSC/Join-Domain.zip",
+    "installSysmonScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/DSC/Install-Sysmon.zip",
 
     // Initial Setup Scripts
     "initialSetUpScripts": [
@@ -863,34 +854,6 @@
           },
           "installSysmonScript": {
             "value": "[variables('installSysmonScript')]"
-          },
-          "location": {
-            "value": "[parameters('location')]"
-          }
-        }
-      }
-    },
-    {
-      "condition": "[parameters('enableAADConnect')]",
-      "name": "[concat(variables('domainController')[0].vmName, '-installAADConnect')]",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2019-10-01",
-      "dependsOn": [
-        "vmDomainJoinCopy",
-        "[concat(variables('domainController')[0].vmName, '-installSysmon')]"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('installAADConnectTemplateUri')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "vmName": {
-            "value": "[variables('domainController')[0].vmName]"
-          },
-          "installAADConnectScript": {
-            "value": "[variables('installAADConnectScript')]"
           },
           "location": {
             "value": "[parameters('location')]"
