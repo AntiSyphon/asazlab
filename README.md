@@ -1,4 +1,4 @@
-# Antisyopon Training Azure Lab Environment
+# Antisyphon Training Azure Lab Environment
 
 *In development* 
 
