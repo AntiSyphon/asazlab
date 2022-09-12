@@ -25,7 +25,7 @@ The following locations have specifically been tested:
 
 # Components
 * Windows Server /w Active Directory.
-  * Domain: doazlab.com
+  * Domain: asazlab.com
 * Windows Workstation 21h1-pro
 
 # Acknowledgments
