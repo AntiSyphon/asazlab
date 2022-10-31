@@ -36,14 +36,26 @@ configuration badblood {
         {
             SetScript = 
             {
-                [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-                mkdir c:\ASAZ
-                cd c:\ASAZ
-                Invoke-WebRequest -URI https://github.com/Relkci/BadBlood/archive/refs/heads/master.zip -OutFile BadBlood.zip
-                Expand-Archive .\BadBlood.zip
-                Remove-Item .\BadBlood.zip
-                cd c:\ASAZ\BadBlood\BadBlood-master\
-                .\Invoke-BadBlood.ps1 -GroupCount 50 -Usercount 50 -ComputerCount 50 -NonInteractive -SkipLapsInstall
+            
+            echo "badblood DSC started"
+
+                try 
+                {
+                    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+                    cd c:\ASAZ
+                    Invoke-WebRequest -URI https://github.com/Relkci/BadBlood/archive/refs/heads/master.zip -OutFile BadBlood.zip
+                    Expand-Archive .\BadBlood.zip
+                    Remove-Item .\BadBlood.zip
+                    cd c:\ASAZ\BadBlood\BadBlood-master\
+                    .\Invoke-BadBlood.ps1 -GroupCount 50 -Usercount 50 -ComputerCount 50 -NonInteractive -SkipLapsInstall
+                }
+                catch 
+                {
+                    echo "failed to run badblood"
+                }
+                
+                echo "badblood DSC completed"
+
             }
 
             GetScript =  

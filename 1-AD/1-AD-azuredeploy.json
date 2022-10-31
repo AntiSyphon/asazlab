@@ -270,6 +270,8 @@
     "joinDomainTemplateUri": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/templates/joinDomain.json",
     "badbloodTemplateUri": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/templates/badblood.json",
     "SPNTemplateUri": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/templates/addspns.json",
+    "FileSharesTemplateUri": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/templates/addspns.json",
+
 
     // Custom Scripts
     "initialSettingsScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/scripts/1-vmbootstrap/1-Set-Initial-Settings.ps1",
@@ -290,6 +292,7 @@
     "installSysmonScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/DSC/Install-Sysmon.zip",
     "badbloodScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/DSC/badblood.zip",
     "spnsScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/DSC/spns.zip",
+    "filesharesScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/DSC/fileshares.zip",
 
     // Initial Setup Scripts
     "initialSetUpScripts": [
@@ -623,7 +626,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2019-10-01",
       "dependsOn": [
-        "AddSPNs"
+        "UpdateVNetDNS"
       ],
       "properties": {
         "mode": "Incremental",
@@ -658,7 +661,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2019-10-01",
       "dependsOn": [
-        "AddADUsers"
+        "UpdateVNetDNS"
       ],
       "properties": {
         "mode": "Incremental",
@@ -672,6 +675,41 @@
           },
           "spnsScript": {
             "value": "[variables('spnsScript')]"
+          },
+          "domainFQDN": {
+            "value": "[parameters('domainFQDN')]"
+          },
+          "adminUsername": {
+            "value": "[parameters('adminUsername')]"
+          },
+          "adminPassword": {
+            "value": "[parameters('adminPassword')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          }
+        }
+      }
+    },
+    {
+      "name": "AddFileshares",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2019-10-01",
+      "dependsOn": [
+        "UpdateVNetDNS"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('FileSharesTemplateUri')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "vmName": {
+            "value": "[variables('domainController')[0].vmName]"
+          },
+          "filesharesScript": {
+            "value": "[variables('filesharesScript')]"
           },
           "domainFQDN": {
             "value": "[parameters('domainFQDN')]"
@@ -809,7 +847,7 @@
         "AddADUsers",
         "AddSPNs",
         "Badblood"
-          ],
+      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
