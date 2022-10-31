@@ -17,9 +17,6 @@
     "adminPassword": {
       "type": "securestring"
     },
-    "domainUsers": {
-      "type": "secureObject"
-    },
     "location": {
       "type": "string",
       "metadata": {
