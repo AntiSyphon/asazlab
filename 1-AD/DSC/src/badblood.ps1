@@ -36,28 +36,14 @@ configuration badblood {
         {
             SetScript = 
             {
-                # Verifying ADWS service is running
-                $ServiceName = 'ADWS'
-                $arrService = Get-Service -Name $ServiceName
-
-                while ($arrService.Status -ne 'Running')
-                {
-                    Start-Service $ServiceName
-                    Start-Sleep -seconds 5
-                    $arrService.Refresh()
-                }
-
                 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-                $ProgressPreference = 'SilentlyContinue'
                 mkdir c:\ASAZ
                 cd c:\ASAZ
                 Invoke-WebRequest -URI https://github.com/Relkci/BadBlood/archive/refs/heads/master.zip -OutFile BadBlood.zip
                 Expand-Archive .\BadBlood.zip
                 Remove-Item .\BadBlood.zip
                 cd c:\ASAZ\BadBlood\BadBlood-master\
-                Set-ExecutionPolicy bypass -force
                 .\Invoke-BadBlood.ps1 -GroupCount 50 -Usercount 50 -ComputerCount 50 -NonInteractive
-                $ProgressPreference = 'Continue'
             }
 
             GetScript =  
