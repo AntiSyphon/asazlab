@@ -626,7 +626,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2019-10-01",
       "dependsOn": [
-        "UpdateVNetDNS"
+        "AddFileshares"
       ],
       "properties": {
         "mode": "Incremental",
@@ -661,7 +661,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2019-10-01",
       "dependsOn": [
-        "UpdateVNetDNS"
+        "AddADUsers"
       ],
       "properties": {
         "mode": "Incremental",
@@ -696,7 +696,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2019-10-01",
       "dependsOn": [
-        "UpdateVNetDNS"
+        "AddSPNs"
       ],
       "properties": {
         "mode": "Incremental",
@@ -843,10 +843,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2019-10-01",
       "dependsOn": [
-        "UpdateVNetDNS",
-        "AddADUsers",
-        "AddSPNs",
-        "Badblood"
+        "AddFileshares"
       ],
       "properties": {
         "mode": "Incremental",
