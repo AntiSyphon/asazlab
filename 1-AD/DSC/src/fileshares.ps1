@@ -59,7 +59,7 @@ configuration fileshares {
 
                 try
                 {
-    }               New-ADOrganizationalUnit -Name "SecurityGroups" -Path "DC=asazlab,DC=com"
+                    New-ADOrganizationalUnit -Name "SecurityGroups" -Path "DC=asazlab,DC=com"
                     New-ADOrganizationalUnit -Name "SG_FileShares" -Path "OU=SecurityGroups,DC=asazlab,DC=com"
                     New-ADOrganizationalUnit -Name "ServiceAdmins" -Path "DC=asazlab,DC=com"
                 }
