@@ -37,6 +37,7 @@ configuration fileshares {
             SetScript = 
             {
  
+                mdkri c:\ASAZ\
                 mkdir c:\ASAZ\FileShares\
                 mkdir c:\ASAZ\FileShares\Accounting
                 mkdir c:\ASAZ\FileShares\HR
@@ -44,31 +45,30 @@ configuration fileshares {
                 mkdir c:\ASAZ\FileShares\IT
                 mkdir c:\ASAZ\FileShares\Security
                 
-                New-ADOrganizationalUnit -Name "SecurityGroups" -Path "DC=asazlabs,DC=com"
-                New-ADOrganizationalUnit -Name "SG_FileShares" -Path "OU=SecurityGroups,DC=asazlabs,DC=com"
-                New-ADOrganizationalUnit -Name "ServiceAdmins" -Path "DC=asazlabs,DC=com"
+                New-ADOrganizationalUnit -Name "SecurityGroups" -Path "DC=asazlab,DC=com"
+                New-ADOrganizationalUnit -Name "SG_FileShares" -Path "OU=SecurityGroups,DC=asazlab,DC=com"
+                New-ADOrganizationalUnit -Name "ServiceAdmins" -Path "DC=asazlab,DC=com"
 
                 DSADD user -upn fileadmin@asazlab.com "cn=fileadmin,ou=ServiceAdmins,dc=asazlab,dc=com" -fn "file" -ln "admin" -disabled no -display "FileServiceAdmin"  -office "Administration"  -PWD "HowNotToStoreServiceAccounts20!"
 
-                New-ADGroup "sec_filesadmins" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlabs,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
-                New-ADGroup "sec_files_Accounting-rw" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlabs,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
-                New-ADGroup "sec_files_HR-rw" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlabs,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
-                New-ADGroup "sec_files_ExecutiveOffice-rw" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlabs,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
-                New-ADGroup "sec_files_IT-rw" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlabs,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
-                New-ADGroup "sec_files_Security-rw" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlabs,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
-                New-ADGroup "sec_files_Accounting-ro" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlabs,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
-                New-ADGroup "sec_files_HR-ro" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlabs,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
-                New-ADGroup "sec_files_ExecutiveOffice-ro" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlabs,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
-                New-ADGroup "sec_files_IT-ro" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlabs,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
-                New-ADGroup "sec_files_Security-ro" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlabs,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
-                New-ADGroup "sec_files_Accounting-d" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlabs,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
-                New-ADGroup "sec_files_HR-d" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlabs,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
-                New-ADGroup "sec_files_ExecutiveOffice-d" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlabs,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
-                New-ADGroup "sec_files_IT-d" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlabs,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
-                New-ADGroup "sec_files_Security-d" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlabs,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
+                New-ADGroup "sec_filesadmins" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
+                New-ADGroup "sec_files_Accounting-rw" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
+                New-ADGroup "sec_files_HR-rw" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
+                New-ADGroup "sec_files_ExecutiveOffice-rw" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
+                New-ADGroup "sec_files_IT-rw" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
+                New-ADGroup "sec_files_Security-rw" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
+                New-ADGroup "sec_files_Accounting-ro" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
+                New-ADGroup "sec_files_HR-ro" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
+                New-ADGroup "sec_files_ExecutiveOffice-ro" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
+                New-ADGroup "sec_files_IT-ro" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
+                New-ADGroup "sec_files_Security-ro" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
+                New-ADGroup "sec_files_Accounting-d" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
+                New-ADGroup "sec_files_HR-d" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
+                New-ADGroup "sec_files_ExecutiveOffice-d" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
+                New-ADGroup "sec_files_IT-d" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
+                New-ADGroup "sec_files_Security-d" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
 
-
-                ADD-ADGroupMember "sec_filesadmins" –members "fileadmin@asazlab.com"
+                ADD-ADGroupMember "sec_filesadmins" –members "fileadmin"
                 ADD-ADGroupMember "sec_filesadmins" –members "Domain Admins"
 
                 ADD-ADGroupMember "sec_files_Accounting-ro" –members "Domain Users"
@@ -83,17 +83,11 @@ configuration fileshares {
                 New-SMBShare -Name "IT" -Path c:\ASAZ\FileShares\Accounting -FullAccess sec_filesadmins -ChangeAccess sec_files_IT-rw -ReadAccess sec_files_IT-ro
                 New-SMBShare -Name "Security" -Path c:\ASAZ\FileShares\Accounting -FullAccess sec_filesadmins -ChangeAccess sec_files_Security-rw -ReadAccess sec_files_Security-ro
 
-                Block-SMBShareAccess -Name "Accounting" -GroupName sec_files_Accounting-d -Force
-                Block-SMBShareAccess -Name "HR" -GroupName sec_files_HR-d -Force
-                Block-SMBShareAccess -Name "Accounting" -GroupName sec_files_ExecutiveOffice-d -Force
-                Block-SMBShareAccess -Name "Accounting" -GroupName sec_files_IT-d -Force
-                Block-SMBShareAccess -Name "Accounting" -GroupName sec_files_Security-d -Force
-
-
-
-
-
-
+                Block-SMBShareAccess -Name "Accounting" -AccountName sec_files_Accounting-d -Force
+                Block-SMBShareAccess -Name "HR" -AccountName sec_files_HR-d -Force
+                Block-SMBShareAccess -Name "ExecutiveOffice" -AccountName sec_files_ExecutiveOffice-d -Force
+                Block-SMBShareAccess -Name "IT" -AccountName sec_files_IT-d -Force
+                Block-SMBShareAccess -Name "Security" -AccountName sec_files_Security-d -Force
 
             }
 

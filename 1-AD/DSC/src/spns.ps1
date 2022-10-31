@@ -47,7 +47,6 @@ configuration Addspns {
 
                 mkdir c:\ASAZ
                 cd c:\ASAZ
-                New-ADUser -UserPrincipalName "Luis.Graves@asazlab.com" -Path "OU=DomainUsers,dc=asazlab,DC=com" -GivenName "Luis" -Surname "Graves" -Enabled 1 -Name "Luis.Graves" -desc "Accounting Controller" -office "Accounting" -title "Controller" -company "asazlab" -AccountPassword (ConvertTo-SecureString "Password1!" -AsPlainText -Force) 
                 New-ADUser -UserPrincipalName 'Braylen.Ewing@asazlab.com' -Path 'OU=DomainUsers,dc=asazlab,DC=com' -GivenName 'Braylen' -Surname 'Ewing' -Enabled 1 -Name 'Braylen.Ewing' -AccountPassword (ConvertTo-SecureString 'qwertyuiopDE#'  -AsPlainText -Force) 
                 New-ADUser -UserPrincipalName 'Emelia.Chaney@asazlab.com' -Path 'OU=DomainUsers,dc=asazlab,DC=com' -GivenName 'Emelia' -Surname 'Chaney' -Enabled 1 -Name 'Emelia.Chaney' -AccountPassword (ConvertTo-SecureString 'Spring2005!'  -AsPlainText -Force) 
                 New-ADUser -UserPrincipalName 'Shaylee.Griffith@asazlab.com' -Path 'OU=DomainUsers,dc=asazlab,DC=com' -GivenName 'Shaylee' -Surname 'Griffith' -Enabled 1 -Name 'Shaylee.Griffith' -AccountPassword (ConvertTo-SecureString 'MaryJane13!'  -AsPlainText -Force) 
