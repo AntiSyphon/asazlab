@@ -8,29 +8,29 @@ param (
 )
 
 # Install DSC Modules
-& .\Install-DSC-Modules.ps1 -SetupType $SetupType
+& .\2-Install-DSC-Modules.ps1 -SetupType $SetupType
 
 # Custom Settings applied
-& .\Prepare-Box.ps1
+& .\3-Prepare-Box.ps1
 
 # Windows Security Audit Categories
 if ($SetupType -eq 'DC')
 {
-    & .\Enable-WinAuditCategories.ps1 -SetDC
+    & .\4-Enable-WinAuditCategories.ps1 -SetDC
 }
 else
 {
-    & .\Enable-WinAuditCategories.ps1
+    & .\4-Enable-WinAuditCategories.ps1
 }
 
 # PowerShell Logging
-& .\Enable-PowerShell-Logging.ps1
+& .\5-Enable-PowerShell-Logging.ps1
 
 # Set SACLs
-& .\Set-SACLs.ps1
+& .\6-Set-SACLs.ps1
 
 # Set Wallpaper
-& .\Set-WallPaper.ps1
+& .\7-Set-WallPaper.ps1
 
 # Disable Defender Bits
-& .\disable-defender.ps1
+& .\8-disable-defender.ps1

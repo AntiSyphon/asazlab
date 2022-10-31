@@ -271,17 +271,21 @@
     "joinDomainTemplateUri": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/templates/joinDomain.json",
 
     // Custom Scripts
-    "initialSettingsScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/scripts/Set-Initial-Settings.ps1",
-    "prepareBoxScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/scripts/Prepare-Box.ps1",
-    "setSecurityAuditingScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/scripts/Enable-WinAuditCategories.ps1",
-    "setPowerShellLogging": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/scripts/Enable-PowerShell-Logging.ps1",
-    "saclModule": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/scripts/Set-AuditRule.ps1",
-    "setSACLScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/scripts/Set-SACLs.ps1",
-    "DisableDefender": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/scripts/disable-defender.ps1",
-    "setWallPaperScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/scripts/Set-WallPaper.ps1",
+    "initialSettingsScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/scripts/1-vmbootstrap/1-Set-Initial-Settings.ps1",
+    "dscModules": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/scripts/1-vmbootstrap/2-Install-DSC-Modules.ps1",
+    "prepareBoxScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/scripts/1-vmbootstrap/3-Prepare-Box.ps1",
+    "setSecurityAuditingScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/scripts/1-vmbootstrap/4-Enable-WinAuditCategories.ps1",
+    "setPowerShellLogging": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/scripts/1-vmbootstrap/5-Enable-PowerShell-Logging.ps1",
+    "saclModule": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/scripts/1-vmbootstrap/Set-AuditRule.ps1",
+    "setSACLScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/scripts/1-vmbootstrap/6-Set-SACLs.ps1",
+    "setWallPaperScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/scripts/1-vmbootstrap/7-Set-WallPaper.ps1",
+    "DisableDefender": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/scripts/1-vmbootstrap/8-disable-defender.ps1",
+
+    // DC Bootstrap Custom Scripts
+    "1dcbootstrapscript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/scripts/2-dcbootstrap/1-dcbootstrap.ps1",
+    "2badbloodscript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/scripts/2-dcbootstrap/2-badblood.ps1",
 
     // Powershell DSC Scripts
-    "dscModules": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/scripts/Install-DSC-Modules.ps1",
     "createADForestScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/DSC/Create-AD.zip",
     "AddUsersScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/DSC/AddUsers1.zip",
     "joinDomainScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/DSC/Join-Domain.zip",
@@ -298,6 +302,10 @@
       "[variables('setSACLScript')]",
       "[variables('setWallPaperScript')]",
       "[variables('DisableDefender')]"
+    ],
+    "DCBootStrapScripts": [
+      "[variables('1dcbootstrapscript')]",
+      "[variables('2badbloodscript')]"
     ],
 
     // Virtual Machine Properties
@@ -332,7 +340,8 @@
         "offer": "WindowsServer",
         "sku": "2019-Datacenter",
         "version": "17763.3125.2112070401",
-        "extensionName": "SetUpDC"
+        "extensionName": "SetUpDC",
+        "extensionNameBootStrap": "DCBootStrap"
       }
     ],
 
@@ -515,7 +524,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": "[variables('initialSetUpScripts')]",
-          "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ./Set-Initial-Settings.ps1',' ','-SetupType Endpoint')]"
+          "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ./1-Set-Initial-Settings.ps1',' ','-SetupType Endpoint')]"
         },
         "protectedSettings": {}
       }
@@ -535,7 +544,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": "[variables('initialSetUpScripts')]",
-          "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ./Set-Initial-Settings.ps1',' ','-SetupType DC')]"
+          "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ./1-Set-Initial-Settings.ps1',' ','-SetupType DC')]"
         },
         "protectedSettings": {}
       }
@@ -615,6 +624,28 @@
             "value": "[parameters('location')]"
           }
         }
+      }
+    },
+    {
+      "name": "[concat(variables('domainController')[0].vmName, '/', variables('domainController')[0].extensionNameBootStrap)]",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "apiVersion": "2019-12-01",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines/', variables('domainController')[0].vmName)]",
+        "CreateADForest",
+        "AddADUsers"
+      ],
+      "properties": {
+        "publisher": "Microsoft.Compute",
+        "type": "CustomScriptExtension",
+        "typeHandlerVersion": "1.8",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "fileUris": "[variables('DCBootStrapScripts')]",
+          "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ./1-dcbootstrap.ps1',' ','-SetupType DC')]"
+        },
+        "protectedSettings": {}
       }
     },
     {
