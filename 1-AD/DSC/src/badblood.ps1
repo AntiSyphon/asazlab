@@ -43,7 +43,7 @@ configuration badblood {
                 Expand-Archive .\BadBlood.zip
                 Remove-Item .\BadBlood.zip
                 cd c:\ASAZ\BadBlood\BadBlood-master\
-                .\Invoke-BadBlood.ps1 -GroupCount 50 -Usercount 50 -ComputerCount 50 -NonInteractive
+                .\Invoke-BadBlood.ps1 -GroupCount 50 -Usercount 50 -ComputerCount 50 -NonInteractive -SkipLapsInstall
             }
 
             GetScript =  
