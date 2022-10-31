@@ -32,7 +32,7 @@
   },
   "resources": [
     {
-      "name": "[concat(parameters('vmName'), '/PowerShellDSC')]",
+      "name": "DC1-CreateAD-PSDSC",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "apiVersion": "2019-12-01",
       "location": "[parameters('location')]",
@@ -64,11 +64,11 @@
       }
     },
     {
-      "name": "[concat(parameters('vmName'), '/AddUsersDSC')]",
+      "name": "DC1-AddUsers-PSDSC]",
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "apiVersion": "2019-12-01",
       "dependsOn": [
-        "[resourceId('Microsoft.Compute/virtualMachines/extensions',concat(parameters('vmName'), '/PowerShellDSC'))]"
+        "DC1-CreateAD-PSDSC"
       ],
       "location": "[parameters('location')]",
       "properties": {
