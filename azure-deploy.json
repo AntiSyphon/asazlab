@@ -103,9 +103,6 @@
       "name": "deployWinAD",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
-      "dependsOn": [
-        "DeploySentinel"
-      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
