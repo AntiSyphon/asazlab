@@ -5,7 +5,7 @@
     "vmName": {
       "type": "string"
     },
-    "createADForestScript": {
+    "AddUsersScript": {
       "type": "string"
     },
     "domainFQDN": {
@@ -41,9 +41,9 @@
         "settings": {
           "wmfVersion": "latest",
           "configuration": {
-            "url": "[parameters('createADForestScript')]",
-            "script": "Create-AD.ps1",
-            "function": "Create-AD"
+            "url": "[parameters('AddUsersScript')]",
+            "script": "AddUsers1.ps1",
+            "function": "AddUsers"
           },
           "configurationArguments": {
             "DomainFQDN": "[parameters('DomainFQDN')]"
@@ -54,8 +54,7 @@
             "AdminCreds": {
               "UserName": "[parameters('adminUsername')]",
               "Password": "[parameters('adminPassword')]"
-            },
-            "DomainUsers": "[parameters('domainUsers').array]"
+            }
           }
         }
       }

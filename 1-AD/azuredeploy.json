@@ -267,6 +267,7 @@
     "updateDNSServerScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/templates/vnet-dns-server.json",
     "sysmonInstallTemplateUri": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/templates/sysmonInstall.json",
     "createADTemplateUri": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/templates/createADForest.json",
+    "AddADUsersuri": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/templates/AddADUsers.json",
     "joinDomainTemplateUri": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/templates/joinDomain.json",
 
     // Custom Scripts
@@ -556,6 +557,42 @@
           },
           "createADForestScript": {
             "value": "[variables('createADForestScript')]"
+          },
+          "domainFQDN": {
+            "value": "[parameters('domainFQDN')]"
+          },
+          "adminUsername": {
+            "value": "[parameters('adminUsername')]"
+          },
+          "adminPassword": {
+            "value": "[parameters('adminPassword')]"
+          },
+          "domainUsers": {
+            "value": "[parameters('domainUsers')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          }
+        }
+      }
+    },
+    {
+      "name": "AddADUsers",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2019-10-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('domainController')[0].vmName, variables('domainController')[0].extensionName)]",
+        "CreateADForest"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('AddADUsersuri')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "vmName": {
+            "value": "[variables('domainController')[0].vmName]"
           },
           "AddUsersScript": {
             "value": "[variables('AddUsersScript')]"
