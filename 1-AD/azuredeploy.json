@@ -281,6 +281,7 @@
     // Powershell DSC Scripts
     "dscModules": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/scripts/Install-DSC-Modules.ps1",
     "createADForestScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/DSC/Create-AD.zip",
+    "AddUsersScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/DSC/AddUsers1.zip",
     "joinDomainScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/DSC/Join-Domain.zip",
     "installSysmonScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/DSC/Install-Sysmon.zip",
 
@@ -555,6 +556,9 @@
           },
           "createADForestScript": {
             "value": "[variables('createADForestScript')]"
+          },
+          "AddUsersScript": {
+            "value": "[variables('AddUsersScript')]"
           },
           "domainFQDN": {
             "value": "[parameters('domainFQDN')]"
