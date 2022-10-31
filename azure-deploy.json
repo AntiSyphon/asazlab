@@ -70,11 +70,7 @@
       "type": "bool",
       "defaultValue": false
     },
-    "doenableaadconnect": {
-      "type": "bool",
-      "defaultValue": false
-    },
-    "doimmediatePurgeDataOn30Days": {
+     "doimmediatePurgeDataOn30Days": {
       "type": "bool",
       "defaultValue": true
     },
@@ -148,9 +144,6 @@
           },
           "enableSysmon": {
             "value": "[parameters('doenablesysmon')]"
-          },
-          "enableAADConnect": {
-            "value": "[parameters('doenableaadconnect')]"
           },
           "location": {
             "value": "[parameters('location')]"
