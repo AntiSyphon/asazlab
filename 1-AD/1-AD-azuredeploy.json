@@ -625,7 +625,8 @@
       "apiVersion": "2019-10-01",
       "dependsOn": [
         "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('domainController')[0].vmName, variables('domainController')[0].extensionName)]",
-        "CreateADForest"
+        "CreateADForest",
+        "AddADUsers"
       ],
       "properties": {
         "mode": "Incremental",
@@ -661,7 +662,8 @@
       "apiVersion": "2019-10-01",
       "dependsOn": [
         "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('domainController')[0].vmName, variables('domainController')[0].extensionName)]",
-        "CreateADForest"
+        "CreateADForest",
+        "Badblood"
       ],
       "properties": {
         "mode": "Incremental",
@@ -696,7 +698,8 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2019-10-01",
       "dependsOn": [
-        "CreateADForest"
+        "CreateADForest",
+        "AddSPNs"
       ],
       "properties": {
         "mode": "Incremental",
@@ -809,8 +812,10 @@
       "apiVersion": "2019-10-01",
       "dependsOn": [
         "UpdateVNetDNS",
-        "AddADUsers"
-      ],
+        "AddADUsers",
+        "AddSPNs",
+        "Badblood"
+          ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
