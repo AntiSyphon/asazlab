@@ -282,7 +282,7 @@ configuration AddUsers {
                 }
                 catch 
                 {
-                    Write-Host "creating Accounts
+                    Write-Host "creating Accounts"
                 }
 
                 Write-Host "add user accounts DSC complete "
