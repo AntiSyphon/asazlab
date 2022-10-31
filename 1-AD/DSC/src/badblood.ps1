@@ -45,7 +45,7 @@ configuration badblood {
                 Expand-Archive .\BadBlood.zip
                 Remove-Item .\BadBlood.zip
                 cd c:\ASAZ\BadBlood\BadBlood-master\
-                .\Invoke-BadBlood.ps1 -GroupCount 50 -Usercount 50 -ComputerCount 50 -NonInteractive -SkipLapsInstall
+                .\Invoke-BadBlood.ps1 -GroupCount 250 -Usercount 250 -ComputerCount 250 -NonInteractive -SkipLapsInstall
                 
                 Write-Host "badblood DSC completed"
 
