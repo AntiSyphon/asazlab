@@ -35,7 +35,7 @@ configuration AddUsers {
             SetScript = 
             {
 
-             echo "starting add users DSC"
+             Write-Host "starting add users DSC"
 
                 # Verifying ADWS service is running
                 $ServiceName = 'ADWS'
@@ -48,7 +48,7 @@ configuration AddUsers {
                     $arrService.Refresh()
                 }
 
-                echo "creating new ous"
+                Write-Host "creating new ous"
 
                 try 
                 {
@@ -58,10 +58,10 @@ configuration AddUsers {
                 }
                 catch 
                 {
-                    echo "error creating new ous"
+                    Write-Host "error creating new ous"
                 }
 
-                echo "adding new users"
+                Write-Host "adding new users"
 
                 try 
                 {               
@@ -282,10 +282,10 @@ configuration AddUsers {
                 }
                 catch 
                 {
-                    error creating Accounts
+                    Write-Host "creating Accounts
                 }
 
-                echo "add user accounts DSC complete "
+                Write-Host "add user accounts DSC complete "
 
             }
 

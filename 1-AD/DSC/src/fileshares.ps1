@@ -37,9 +37,9 @@ configuration fileshares {
             SetScript = 
             {
  
-                echo "add SPNs DSC complete "
+                Write-Host "add SPNs DSC complete "
 
-                echo "adding directories "
+                Write-Host "adding directories "
 
                 try
                 {
@@ -52,10 +52,10 @@ configuration fileshares {
                 }
                 catch 
                 {
-                    echo "error attempting to make new directories for fileshares"
+                    Write-Host "error attempting to make new directories for fileshares"
                 }
 
-                echo "adding OUs "
+                Write-Host "adding OUs "
 
                 try
                 {
@@ -65,10 +65,10 @@ configuration fileshares {
                 }
                 catch 
                 {
-                    echo "error attempting to make new OUs for fileshare groups"
+                    Write-Host "error attempting to make new OUs for fileshare groups"
                 }
 
-                echo "adding fileadmin "
+                Write-Host "adding fileadmin "
 
                 try
                 {
@@ -76,10 +76,10 @@ configuration fileshares {
                 }
                 catch
                 {
-                     echo "error attempting to make new OUs for fileshare admin user"
+                     Write-Host "error attempting to make new OUs for fileshare admin user"
                 }
 
-                echo "adding groups "
+                Write-Host "adding groups "
 
                 try 
                 {
@@ -102,10 +102,10 @@ configuration fileshares {
                 }
                 catch 
                 {
-                    echo "error attempting to make newgroupos for fileshares"
+                    Write-Host "error attempting to make newgroupos for fileshares"
                 }
 
-                echo "adding group memberships "
+                Write-Host "adding group memberships "
 
                 try
                 {
@@ -119,10 +119,10 @@ configuration fileshares {
                 }
                 catch
                 {
-                    echo "error attempting to add users to fileshare groups"
+                    Write-Host "error attempting to add users to fileshare groups"
                 }
 
-                echo "adding fileshares"
+                Write-Host "adding fileshares"
 
                 try
                 {
@@ -134,10 +134,10 @@ configuration fileshares {
                 }
                 catch 
                 {
-                 echo "error attempting to create fileshares"
+                 Write-Host "error attempting to create fileshares"
                 }
                 
-                echo "adding fileshares denial entries"
+                Write-Host "adding fileshares denial entries"
 
                 try 
                 {
@@ -149,9 +149,10 @@ configuration fileshares {
                 }
                 catch 
                 {
-                    echo "error attempting to create fileshares denial entries"
+                    Write-Host "error attempting to create fileshares denial entries"
                 }
 
+                Write-Host "completed fileshares DSC"
 
             }
 

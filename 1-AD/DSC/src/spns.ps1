@@ -34,28 +34,11 @@ configuration Addspns {
         {
             SetScript = 
             {
-                echo "add SPNs DSC started "
+                Write-Host "add SPNs DSC started "
 
-                # Verifying ADWS service is running
-                $ServiceName = 'ADWS'
-                $arrService = Get-Service -Name $ServiceName
+                              
+                Write-Host "add user accounts for spns "
 
-                while ($arrService.Status -ne 'Running')
-                {
-                    Start-Service $ServiceName
-                    Start-Sleep -seconds 5
-                    $arrService.Refresh()
-                }
-
-                try 
-                {
-                       mkdir c:\ASAZ
-                }
-                catch
-                { 
-                    echo "error creating path"
-                }
-                
                 try {
                     cd c:\ASAZ
                     New-ADUser -UserPrincipalName 'Braylen.Ewing@asazlab.com' -Path 'OU=DomainUsers,dc=asazlab,DC=com' -GivenName 'Braylen' -Surname 'Ewing' -Enabled 1 -Name 'Braylen.Ewing' -AccountPassword (ConvertTo-SecureString 'qwertyuiopDE#'  -AsPlainText -Force) 
@@ -73,8 +56,10 @@ configuration Addspns {
                 }
                 catch
                 {
-                    echo "error creating New ADUsers for SPNS"
+                    Write-Host "error creating New ADUsers for SPNS"
                 }
+
+                Write-Host "add SPNs complete "
 
                 try
                 {
@@ -94,10 +79,10 @@ configuration Addspns {
                 }
                 catch
                 {
-                echo "error creating New SPNs "
+                Write-Host "error creating New SPNs "
                 }
 
-                 echo "add SPNs DSC complete "
+                 Write-Host "add SPNs DSC complete "
 
             }
 

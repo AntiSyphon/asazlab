@@ -37,7 +37,7 @@ configuration badblood {
             SetScript = 
             {
             
-            echo "badblood DSC started"
+            Write-Host "badblood DSC started"
 
                 try 
                 {
@@ -51,10 +51,10 @@ configuration badblood {
                 }
                 catch 
                 {
-                    echo "failed to run badblood"
+                    Write-Host "failed to run badblood"
                 }
                 
-                echo "badblood DSC completed"
+                Write-Host "badblood DSC completed"
 
             }
 
