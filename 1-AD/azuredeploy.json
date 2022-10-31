@@ -277,6 +277,7 @@
     "setPowerShellLogging": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/scripts/Enable-PowerShell-Logging.ps1",
     "saclModule": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/scripts/Set-AuditRule.ps1",
     "setSACLScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/scripts/Set-SACLs.ps1",
+    "DisableDefender": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/scripts/disable-defender.ps1",
     "setWallPaperScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/scripts/Set-WallPaper.ps1",
 
     // Powershell DSC Scripts
@@ -295,7 +296,8 @@
       "[variables('setPowerShellLogging')]",
       "[variables('saclModule')]",
       "[variables('setSACLScript')]",
-      "[variables('setWallPaperScript')]"
+      "[variables('setWallPaperScript')]",
+      "[variables('DisableDefender')]"
     ],
 
     // Virtual Machine Properties

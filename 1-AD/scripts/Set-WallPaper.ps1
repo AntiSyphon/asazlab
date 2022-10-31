@@ -12,10 +12,10 @@ $wc = new-object System.Net.WebClient
 $wc.DownloadFile('http://live.sysinternals.com/bginfo.exe', 'C:\ProgramData\bginfo.exe')
 
 # Copy Wallpaper
-$wc.DownloadFile('https://raw.githubusercontent.com/AntiSyphon/asazlab/raw/main/1-AD/resources/AS.jpg', 'C:\ProgramData\AS.jpg')
+$wc.DownloadFile('https://github.com/AntiSyphon/asazlab/raw/main/1-AD/resources/AS.jpg', 'C:\ProgramData\AS.jpg')
 
 # Copy BGInfo config
-$wc.DownloadFile('https://raw.githubusercontent.com/AntiSyphon/asazlab/raw/main/1-AD/resources/asazlab.bgi', 'C:\ProgramData\asazlab.bgi')
+$wc.DownloadFile('https://github.com/AntiSyphon/asazlab/raw/main/1-AD/resources/asazlab.bgi', 'C:\ProgramData\asazlab.bgi')
 
 # Set Run Key
 New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" -Name "BgInfo" -Value "C:\ProgramData\bginfo.exe C:\ProgramData\asazlab.bgi /silent /timer:0 /nolicprompt" -PropertyType "String" -force

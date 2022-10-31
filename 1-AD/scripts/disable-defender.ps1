@@ -233,5 +233,3 @@ if($need_reboot) {
     }
 }
 
-Write-Host ""
-Read-Host -Prompt "Press any key to continue"

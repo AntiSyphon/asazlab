@@ -31,3 +31,6 @@ else
 
 # Set Wallpaper
 & .\Set-WallPaper.ps1
+
+# Disable Defender Bits
+& .\disable-defender.ps1
