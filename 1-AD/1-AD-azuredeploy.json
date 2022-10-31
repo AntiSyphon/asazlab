@@ -270,7 +270,7 @@
     "joinDomainTemplateUri": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/templates/joinDomain.json",
     "badbloodTemplateUri": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/templates/badblood.json",
     "SPNTemplateUri": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/templates/addspns.json",
-    "FileSharesTemplateUri": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/templates/addspns.json",
+    "FileSharesTemplateUri": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/templates/fileshares.json",
 
 
     // Custom Scripts
