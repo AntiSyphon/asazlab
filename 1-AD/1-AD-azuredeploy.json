@@ -640,7 +640,7 @@
           "vmName": {
             "value": "[variables('domainController')[0].vmName]"
           },
-          "AddUsersScript": {
+          "badbloodScript": {
             "value": "[variables('badbloodScript')]"
           },
           "domainFQDN": {
