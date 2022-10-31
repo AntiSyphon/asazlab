@@ -152,7 +152,6 @@
       }
     },
     {
-      "condition": "[not(equals(variables('asc2'), 'None'))]",
       "name": "deployC2",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
@@ -191,7 +190,6 @@
       }
     },
     {
-      "condition": "[not(equals(variables('asc2'), 'None'))]",
       "name": "vnet-c2/peering-to-remote-vnet-win",
       "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
       "apiVersion": "2019-11-01",
@@ -211,7 +209,6 @@
       }
     },
     {
-      "condition": "[not(equals(variables('asc2'), 'None'))]",
       "name": "vnet-win/peering-to-remote-vnet-c2",
       "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
       "apiVersion": "2019-11-01",
