@@ -55,7 +55,7 @@
             "SamAccountName": "cliken",
             "Department": "Accounting",
             "JobTitle": "VP",
-            "Password": "IloveCounting4real!",
+            "Password": "Broncos40!",
             "Identity": "Users",
             "UserContainer": "DomainUsers"
           },
@@ -75,7 +75,7 @@
             "SamAccountName": "sysmonsvc",
             "Department": "IT Support",
             "JobTitle": "Service Account",
-            "Password": "Buggy!1122",
+            "Password": "WinterTime2022!",
             "Identity": "Users",
             "UserContainer": "DomainUsers"
           },
