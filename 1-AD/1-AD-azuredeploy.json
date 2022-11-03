@@ -724,11 +724,11 @@
       }
     },
     {
-      "name": "AddFileshares",
+      "name": "SRV01-Fileshares",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2019-10-01",
       "dependsOn": [
-        "AddSPNs"
+        "SRV01-joinDomain"
       ],
       "properties": {
         "mode": "Incremental",
@@ -738,7 +738,7 @@
         },
         "parameters": {
           "vmName": {
-            "value": "[variables('domainController')[0].vmName]"
+            "value": "[variables('MemberServer')[0].vmName]"
           },
           "filesharesScript": {
             "value": "[variables('filesharesScript')]"
@@ -843,7 +843,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2019-10-01",
       "dependsOn": [
-        "InitialSetUpWKSCopy",
+        "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('memberserver')[0].vmName, variables('memberserver')[0].extensionName)]",
         "UpdateVNetDNS"
       ],
       "properties": {
@@ -944,7 +944,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2019-10-01",
       "dependsOn": [
-        "SRV01-joinDomain"
+        "SRV01-Fileshares"
       ],
       "properties": {
         "mode": "Incremental",
