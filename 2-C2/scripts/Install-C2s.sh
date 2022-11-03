@@ -28,7 +28,6 @@ apt install nmap net-tools whois zip -y
 
 # First up: impacket
 # clone it, cd to it, add a venv container, activate, add wheel, install tools, deactivate
-
 cd /opt/
 git clone https://github.com/SecureAuthCorp/impacket.git
 cd impacket
@@ -42,7 +41,6 @@ cd /opt/
 
 # BloodHound.py
 # clone it, cd to it, add a venv container, activate, add wheel, install tools, deactivate
-
 cd /opt/
 git clone https://github.com/fox-it/BloodHound.py.git
 cd BloodHound.py
@@ -50,6 +48,18 @@ python3.9 -m venv bh-env
 source bh-env/bin/activate
 python3.9 -m pip install wheel
 python3.9 setup.py install
+deactivate
+cd /opt/
+
+# PlumHound
+# clone it, cd to it, add a venv container, activate, add wheel, install tools, deactivate
+cd /opt/ 
+git clone https://github.com/PlumHound/PlumHound.git
+cd PlumHound
+python3.9 -m venv ph-venv
+source ph-venv/bin/activate
+python3.9 -m pip install wheel
+python3.9 -m pip install -r requirements.txt
 deactivate
 cd /opt/
 
@@ -62,4 +72,9 @@ curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/t
 chmod 755 msfinstall
 ./msfinstall |tee -a msf-install.log
 
+#neo4j
+curl -fsSL https://debian.neo4j.com/neotechnology.gpg.key |sudo gpg --dearmor -o /usr/share/keyrings/neo4j.gpg
+echo "deb [signed-by=/usr/share/keyrings/neo4j.gpg] https://debian.neo4j.com stable 4.1" | sudo tee -a /etc/apt/sources.list.d/neo4j.list
+sudo apt update
+sudo apt install neo4j
 
