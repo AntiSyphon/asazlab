@@ -159,7 +159,7 @@
     }
   },
   "variables": {
-    "storageAccountName": "[concat(uniquestring(resourceGroup().id,'c2',parameters('utcValue')))]",
+    "storageAccountName": "[concat('stor-NUX-',uniquestring(resourceGroup().id,'c2',parameters('utcValue')))]",
     "doc2pipname": "[concat('pip-', variables('vmName'))]",
     "virtualNetworkName": "[parameters('virtualNetworkName')]",
     "virtualNetworkAddressRange": "[parameters('virtualNetworkAddressRange')]",
