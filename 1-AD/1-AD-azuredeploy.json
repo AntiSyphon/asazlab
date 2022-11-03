@@ -271,6 +271,8 @@
     "badbloodTemplateUri": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/templates/badblood.json",
     "SPNTemplateUri": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/templates/addspns.json",
     "FileSharesTemplateUri": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/templates/fileshares.json",
+    "ACDSTemplateUri": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/templates/acds.json",
+
 
 
     // Custom Scripts
@@ -293,6 +295,8 @@
     "badbloodScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/DSC/badblood.zip",
     "spnsScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/DSC/spns.zip",
     "filesharesScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/DSC/fileshares.zip",
+    "acdsScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/DSC/ACDS.zip",
+
 
     // Initial Setup Scripts
     "initialSetUpScripts": [
@@ -759,6 +763,41 @@
       }
     },
     {
+      "name": "SRV01-ADCS",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2019-10-01",
+      "dependsOn": [
+        "SRV01-Fileshares"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('ACDSTemplateUri')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "vmName": {
+            "value": "[variables('MemberServer')[0].vmName]"
+          },
+          "filesharesScript": {
+            "value": "[variables('acdsScript')]"
+          },
+          "domainFQDN": {
+            "value": "[parameters('domainFQDN')]"
+          },
+          "adminUsername": {
+            "value": "[parameters('adminUsername')]"
+          },
+          "adminPassword": {
+            "value": "[parameters('adminPassword')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          }
+        }
+      }
+    },
+    {
       "name": "UpdateVNetDNS",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2019-10-01",
@@ -944,7 +983,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2019-10-01",
       "dependsOn": [
-        "SRV01-Fileshares"
+        "SRV01-ADCS"
       ],
       "properties": {
         "mode": "Incremental",
