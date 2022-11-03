@@ -68,15 +68,26 @@ configuration fileshares {
                     Write-Host "error attempting to make new OUs for fileshare groups"
                 }
 
-                Write-Host "adding fileadmin "
+                Write-Host "adding fileadmin"
 
                 try
                 {
-                    DSADD user -upn fileadmin@asazlab.com "cn=fileadmin,ou=ServiceAdmins,dc=asazlab,dc=com" -fn "file" -ln "admin" -disabled no -display "FileServiceAdmin"  -office "Administration"  -PWD "HowNotToStoreServiceAccounts20!"
+                    DSADD user -upn fileadmin@asazlab.com "cn=fileadmin,ou=ServiceAdmins,dc=asazlab,dc=com" -fn "file" -ln "admin" -disabled no -display "FileServiceAdmin"  -office "Administration"  -PWD "Adm1nP@55!"
                 }
                 catch
                 {
-                     Write-Host "error attempting to make new OUs for fileshare admin user"
+                     Write-Host "error attempting adding fileadmin"
+                }
+
+                Write-Host "adding fileadmin  SPN"
+
+                try
+                {
+                     setspn -a srv01/fileadmin.asazlab.com:1433 asazlab.com\fileadmin
+                }
+                catch
+                {
+                     Write-Host "error attempting adding fileadmin SPN"
                 }
 
                 Write-Host "adding groups "
@@ -109,13 +120,13 @@ configuration fileshares {
 
                 try
                 {
-                ADD-ADGroupMember "sec_filesadmins" –members "fileadmin"
-                ADD-ADGroupMember "sec_filesadmins" –members "Domain Admins"
-                ADD-ADGroupMember "sec_files_Accounting-ro" –members "Domain Users"
-                ADD-ADGroupMember "sec_files_HR-ro" –members "Domain Users"
-                ADD-ADGroupMember "sec_files_ExecutiveOffice-ro" –members "Domain Users"
-                ADD-ADGroupMember "sec_files_IT-ro" –members "Domain Users"
-                ADD-ADGroupMember "sec_files_Security-ro" –members "Domain Users"
+                    ADD-ADGroupMember "sec_filesadmins" –members "fileadmin"
+                    ADD-ADGroupMember "sec_filesadmins" –members "Domain Admins"
+                    ADD-ADGroupMember "sec_files_Accounting-ro" –members "Domain Users"
+                    ADD-ADGroupMember "sec_files_HR-ro" –members "Domain Users"
+                    ADD-ADGroupMember "sec_files_ExecutiveOffice-ro" –members "Domain Users"
+                    ADD-ADGroupMember "sec_files_IT-ro" –members "Domain Users"
+                    ADD-ADGroupMember "sec_files_Security-ro" –members "Domain Users"
                 }
                 catch
                 {
@@ -126,31 +137,17 @@ configuration fileshares {
 
                 try
                 {
-                    New-SMBShare -Name "Accounting" -Path c:\ASAZ\FileShares\Accounting -FullAccess sec_filesadmins -ChangeAccess sec_files_Accounting-rw -ReadAccess sec_files_Accounting-ro
-                    New-SMBShare -Name "HR" -Path c:\ASAZ\FileShares\Accounting -FullAccess sec_filesadmins -ChangeAccess sec_files_HR-rw -ReadAccess sec_files_HR-ro
-                    New-SMBShare -Name "ExecutiveOffice" -Path c:\ASAZ\FileShares\Accounting -FullAccess sec_filesadmins -ChangeAccess sec_files_ExecutiveOffice-rw -ReadAccess sec_files_ExecutiveOffice-ro
-                    New-SMBShare -Name "IT" -Path c:\ASAZ\FileShares\Accounting -FullAccess sec_filesadmins -ChangeAccess sec_files_IT-rw -ReadAccess sec_files_IT-ro
-                    New-SMBShare -Name "Security" -Path c:\ASAZ\FileShares\Accounting -FullAccess sec_filesadmins -ChangeAccess sec_files_Security-rw -ReadAccess sec_files_Security-ro
+                    New-SMBShare -Name "Accounting" -Path c:\ASAZ\FileShares\Accounting -FullAccess sec_filesadmins -ChangeAccess sec_files_Accounting-rw -ReadAccess sec_files_Accounting-ro -NoAccess sec_files_Accounting-d
+                    New-SMBShare -Name "HR" -Path c:\ASAZ\FileShares\Accounting -FullAccess sec_filesadmins -ChangeAccess sec_files_HR-rw -ReadAccess sec_files_HR-ro -NoAccess sec_files_HR-d
+                    New-SMBShare -Name "ExecutiveOffice" -Path c:\ASAZ\FileShares\Accounting -FullAccess sec_filesadmins -ChangeAccess sec_files_ExecutiveOffice-rw -ReadAccess sec_files_ExecutiveOffice-ro -NoAccess sec_files_ExecutiveOffice-d
+                    New-SMBShare -Name "IT" -Path c:\ASAZ\FileShares\Accounting -FullAccess sec_filesadmins -ChangeAccess sec_files_IT-rw -ReadAccess sec_files_IT-ro -NoAccess sec_files_IT-d
+                    New-SMBShare -Name "Security" -Path c:\ASAZ\FileShares\Accounting -FullAccess sec_filesadmins -ChangeAccess sec_files_Security-rw -ReadAccess sec_files_Security-ro -NoAccess sec_files_Security-d
                 }
                 catch 
                 {
-                 Write-Host "error attempting to create fileshares"
+                    Write-Host "error attempting to create fileshares"
                 }
-                
-                Write-Host "adding fileshares denial entries"
 
-                try 
-                {
-                    Block-SMBShareAccess -Name "Accounting" -AccountName sec_files_Accounting-d -Force
-                    Block-SMBShareAccess -Name "HR" -AccountName sec_files_HR-d -Force
-                    Block-SMBShareAccess -Name "ExecutiveOffice" -AccountName sec_files_ExecutiveOffice-d -Force
-                    Block-SMBShareAccess -Name "IT" -AccountName sec_files_IT-d -Force
-                    Block-SMBShareAccess -Name "Security" -AccountName sec_files_Security-d -Force
-                }
-                catch 
-                {
-                    Write-Host "error attempting to create fileshares denial entries"
-                }
 
                 Write-Host "completed fileshares DSC"
 

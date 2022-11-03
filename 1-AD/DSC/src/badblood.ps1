@@ -37,7 +37,7 @@ configuration badblood {
             SetScript = 
             {
             
-            Write-Host "badblood DSC started"
+                Write-Host "badblood DSC started"
 
                 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
                 cd c:\ASAZ
