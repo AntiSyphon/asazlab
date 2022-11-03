@@ -55,6 +55,9 @@ configuration AddUsers {
                     New-ADOrganizationalUnit -Name "UserAccounts"
                     New-ADOrganizationalUnit -Name "ComputerAccounts"
                     New-ADOrganizationalUnit -Name "AdminAccounts"
+                    New-ADOrganizationalUnit -Name "SecurityGroups" -Path "DC=asazlab,DC=com"
+                    New-ADOrganizationalUnit -Name "SG_FileShares" -Path "OU=SecurityGroups,DC=asazlab,DC=com"
+                    New-ADOrganizationalUnit -Name "ServiceAdmins" -Path "DC=asazlab,DC=com"
                 }
                 catch 
                 {
@@ -284,6 +287,42 @@ configuration AddUsers {
                 {
                     Write-Host "creating Accounts"
                 }
+
+
+                Write-Host "Creating FS objects"
+                try 
+                {
+                    DSADD user -upn fileadmin@asazlab.com "cn=fileadmin,ou=ServiceAdmins,dc=asazlab,dc=com" -fn "file" -ln "admin" -disabled no -display "FileServiceAdmin"  -office "Administration"  -PWD "Adm1nP@55!"
+                    setspn -a srv01/fileadmin.asazlab.com:1433 asazlab.com\fileadmin
+                    New-ADGroup "sec_filesadmins" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
+                    New-ADGroup "sec_files_Accounting-rw" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
+                    New-ADGroup "sec_files_HR-rw" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
+                    New-ADGroup "sec_files_ExecutiveOffice-rw" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
+                    New-ADGroup "sec_files_IT-rw" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
+                    New-ADGroup "sec_files_Security-rw" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
+                    New-ADGroup "sec_files_Accounting-ro" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
+                    New-ADGroup "sec_files_HR-ro" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
+                    New-ADGroup "sec_files_ExecutiveOffice-ro" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
+                    New-ADGroup "sec_files_IT-ro" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
+                    New-ADGroup "sec_files_Security-ro" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
+                    New-ADGroup "sec_files_Accounting-d" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
+                    New-ADGroup "sec_files_HR-d" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
+                    New-ADGroup "sec_files_ExecutiveOffice-d" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
+                    New-ADGroup "sec_files_IT-d" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
+                    New-ADGroup "sec_files_Security-d" -Path "OU=SG_FileShares,OU=SecurityGroups,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
+                    ADD-ADGroupMember "sec_filesadmins" –members "fileadmin"
+                    ADD-ADGroupMember "sec_filesadmins" –members "Domain Admins"
+                    ADD-ADGroupMember "sec_files_Accounting-ro" –members "Domain Users"
+                    ADD-ADGroupMember "sec_files_HR-ro" –members "Domain Users"
+                    ADD-ADGroupMember "sec_files_ExecutiveOffice-ro" –members "Domain Users"
+                    ADD-ADGroupMember "sec_files_IT-ro" –members "Domain Users"
+                    ADD-ADGroupMember "sec_files_Security-ro" –members "Domain Users"
+                }
+                catch
+                {
+                    Write-Host "Failed creating FS objects"
+                }
+
 
                 Write-Host "add user accounts DSC complete "
 
