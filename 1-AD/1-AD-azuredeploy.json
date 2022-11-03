@@ -779,7 +779,7 @@
           "vmName": {
             "value": "[variables('MemberServer')[0].vmName]"
           },
-          "filesharesScript": {
+          "acdsScript": {
             "value": "[variables('acdsScript')]"
           },
           "domainFQDN": {
