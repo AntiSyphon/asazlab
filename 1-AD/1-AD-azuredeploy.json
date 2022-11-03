@@ -272,6 +272,8 @@
     "SPNTemplateUri": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/templates/addspns.json",
     "FileSharesTemplateUri": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/templates/fileshares.json",
     "ACDSTemplateUri": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/templates/acds.json",
+    "PivotLab1TemplateUri": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/templates/acds.json",
+ 
 
 
 
@@ -296,6 +298,7 @@
     "spnsScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/DSC/spns.zip",
     "filesharesScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/DSC/fileshares.zip",
     "acdsScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/DSC/ACDS.zip",
+    "pivotlabScript": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/DSC/pivotlab.zip",
 
 
     // Initial Setup Scripts
@@ -585,7 +588,7 @@
       }
     },
     {
-      "name": "CreateADForest",
+      "name": "DC1-CreateADForest",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2019-10-01",
       "dependsOn": [
@@ -623,11 +626,11 @@
       }
     },
     {
-      "name": "AddADUsers",
+      "name": "DC1-AddADUsers",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2019-10-01",
       "dependsOn": [
-        "UpdateVNetDNS"
+        "AZ-UpdateVNetDNS"
       ],
       "properties": {
         "mode": "Incremental",
@@ -658,11 +661,11 @@
       }
     },
     {
-      "name": "Badblood",
+      "name": "DC1-Badblood",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2019-10-01",
       "dependsOn": [
-        "AddSPNs"
+        "DC1-PivotLab1"
       ],
       "properties": {
         "mode": "Incremental",
@@ -693,11 +696,11 @@
       }
     },
     {
-      "name": "AddSPNs",
+      "name": "DC1-AddSPNs",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2019-10-01",
       "dependsOn": [
-        "AddADUsers"
+        "DC1-AddADUsers"
       ],
       "properties": {
         "mode": "Incremental",
@@ -711,6 +714,41 @@
           },
           "spnsScript": {
             "value": "[variables('spnsScript')]"
+          },
+          "domainFQDN": {
+            "value": "[parameters('domainFQDN')]"
+          },
+          "adminUsername": {
+            "value": "[parameters('adminUsername')]"
+          },
+          "adminPassword": {
+            "value": "[parameters('adminPassword')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          }
+        }
+      }
+    },
+    {
+      "name": "DC1-PivotLab1",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2019-10-01",
+      "dependsOn": [
+        "DC1-AddSPNs"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('PivotLab1TemplateUri')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "vmName": {
+            "value": "[variables('domainController')[0].vmName]"
+          },
+          "pivotlabScript": {
+            "value": "[variables('pivotlabScript')]"
           },
           "domainFQDN": {
             "value": "[parameters('domainFQDN')]"
@@ -798,11 +836,11 @@
       }
     },
     {
-      "name": "UpdateVNetDNS",
+      "name": "AZ-UpdateVNetDNS",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2019-10-01",
       "dependsOn": [
-        "CreateADForest"
+        "DC1-CreateADForest"
       ],
       "properties": {
         "mode": "Incremental",
@@ -837,7 +875,7 @@
       "apiVersion": "2019-10-01",
       "dependsOn": [
         "InitialSetUpWKSCopy",
-        "UpdateVNetDNS"
+        "AZ-UpdateVNetDNS"
       ],
       "copy": {
         "name": "vmDomainJoinCopy",
@@ -883,7 +921,7 @@
       "apiVersion": "2019-10-01",
       "dependsOn": [
         "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('memberserver')[0].vmName, variables('memberserver')[0].extensionName)]",
-        "UpdateVNetDNS"
+        "AZ-UpdateVNetDNS"
       ],
       "properties": {
         "mode": "Incremental",
@@ -956,7 +994,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2019-10-01",
       "dependsOn": [
-        "Badblood"
+        "DC1-Badblood"
       ],
       "properties": {
         "mode": "Incremental",
