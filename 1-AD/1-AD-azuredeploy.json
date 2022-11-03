@@ -339,13 +339,27 @@
         "offer": "WindowsServer",
         "sku": "2019-Datacenter",
         "version": "17763.3125.2112070401",
-        "extensionName": "SetUpDC",
-        "extensionNameBootStrap": "DCBootStrap"
+        "extensionName": "SetUpDC"
+      }
+    ],
+    "MemberServer": [
+      {
+        "tag": "memberserver",
+        "vmName": "SRV01",
+        "os": "windows",
+        "subnetref": "[variables('subnetRef')]",
+        "ipAddress": "[concat(variables('vmPrivateIPAddresPrefix'),'4')]",
+        "vmSize": "[parameters('vmSize')]",
+        "publisher": "MicrosoftWindowsServer",
+        "offer": "WindowsServer",
+        "sku": "2019-Datacenter",
+        "version": "17763.3125.2112070401",
+        "extensionName": "SetupSrvVM"
       }
     ],
 
     // Additional Variables
-    "allEndpoints": "[concat(variables('allWinWKS'), variables('domainController'))]",
+    "allEndpoints": "[concat(variables('allWinWKS'), variables('domainController'), variables('MemberServer'))]",
     "domainNameArray": "[split(parameters('domainFQDN'),'.')]",
     "ouPath": "[concat('OU=Workstations; DC=', variables('domainNameArray')[0], '; DC=', variables('domainNameArray')[1])]",
 
@@ -367,7 +381,6 @@
       "properties": {}
     },
     {
-      "condition": "[equals(parameters('remoteAccessMode'), 'AllowPublicIP')]",
       "comments": "Default Network Security Group for Windows endpoints",
       "type": "Microsoft.Network/networkSecurityGroups",
       "apiVersion": "2019-08-01",
@@ -409,7 +422,6 @@
       }
     },
     {
-      "condition": "[equals(parameters('remoteAccessMode'),'AllowPublicIP')]",
       "type": "Microsoft.Network/publicIPAddresses",
       "apiVersion": "2018-11-01",
       "name": "[concat('pip-', variables('allEndpoints')[copyIndex('vmPublicIpCopy')].vmName)]",
@@ -544,6 +556,26 @@
         "settings": {
           "fileUris": "[variables('initialSetUpScripts')]",
           "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ./1-Set-Initial-Settings.ps1',' ','-SetupType DC')]"
+        },
+        "protectedSettings": {}
+      }
+    },
+    {
+      "name": "[concat(variables('MemberServer')[0].vmName, '/', variables('MemberServer')[0].extensionName)]",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "apiVersion": "2019-12-01",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Compute/virtualMachines/', variables('MemberServer')[0].vmName)]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.Compute",
+        "type": "CustomScriptExtension",
+        "typeHandlerVersion": "1.8",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "fileUris": "[variables('initialSetUpScripts')]",
+          "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ./1-Set-Initial-Settings.ps1',' ','-SetupType Endpoint')]"
         },
         "protectedSettings": {}
       }
@@ -807,6 +839,48 @@
       }
     },
     {
+      "name": "[concat(variables('memberserver')[0].vmName, '-joinDomain')]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2019-10-01",
+      "dependsOn": [
+        "InitialSetUpWKSCopy",
+        "UpdateVNetDNS"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('joinDomainTemplateUri')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "vmName": {
+            "value": "[variables('memberserver')[0].vmName]"
+          },
+          "joinDomainScript": {
+            "value": "[variables('joinDomainScript')]"
+          },
+          "domainFQDN": {
+            "value": "[parameters('domainFQDN')]"
+          },
+          "adminUsername": {
+            "value": "[parameters('adminUsername')]"
+          },
+          "adminPassword": {
+            "value": "[parameters('adminPassword')]"
+          },
+          "dcIpAddress": {
+            "value": "[variables('domainController')[0].ipAddress]"
+          },
+          "joinOU": {
+            "value": "[variables('ouPath')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          }
+        }
+      }
+    },
+    {
       "condition": "[parameters('enableSysmon')]",
       "name": "[concat(variables('allWinWKS')[copyIndex('vmSysmonSetUpCopy')].vmName, '-installSysmon')]",
       "type": "Microsoft.Resources/deployments",
@@ -854,6 +928,33 @@
         "parameters": {
           "vmName": {
             "value": "[variables('domainController')[0].vmName]"
+          },
+          "installSysmonScript": {
+            "value": "[variables('installSysmonScript')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          }
+        }
+      }
+    },
+    {
+      "condition": "[parameters('enableSysmon')]",
+      "name": "[concat(variables('memberserver')[0].vmName, '-installSysmon')]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2019-10-01",
+      "dependsOn": [
+        "SRV01-joinDomain"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('sysmonInstallTemplateUri')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "vmName": {
+            "value": "[variables('memberserver')[0].vmName]"
           },
           "installSysmonScript": {
             "value": "[variables('installSysmonScript')]"
