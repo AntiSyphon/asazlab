@@ -235,7 +235,7 @@
     }
   },
   "variables": {
-    "storageAccountName": "[concat('storWIN',uniquestring(resourceGroup().id, parameters('utcValue')))]",
+    "storageAccountName": "[concat('stowin',uniquestring(resourceGroup().id, parameters('utcValue')))]",
 
     // Virtual Network Setup
     "virtualNetworkName": "[parameters('virtualNetworkName')]",
