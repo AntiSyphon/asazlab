@@ -272,7 +272,7 @@
     "SPNTemplateUri": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/templates/addspns.json",
     "FileSharesTemplateUri": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/templates/fileshares.json",
     "ACDSTemplateUri": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/templates/acds.json",
-    "PivotLab1TemplateUri": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/templates/acds.json",
+    "PivotLab1TemplateUri": "https://github.com/AntiSyphon/asazlab/raw/main/1-AD/templates/pivotlab.json",
  
 
 
