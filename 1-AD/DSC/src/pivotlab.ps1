@@ -46,19 +46,23 @@ configuration pivotlab1 {
                      DSADD user -upn charlieadmin@asazlab.com "cn=charlieadmin,ou=AdminAccounts,dc=asazlab,dc=com" -fn "Charlie" -ln "admin" -disabled no -display "ITAdmin" -desc "Charlie Admin" -office "Administration" -title "Controller" -company "DevLabs" -PWD "ImpossiblePasswordYouWontGetThis3033@@!"
                      Add-ADGroupMember -Identity "Domain Admins" -Members charlieadmin
                      DSADD user -upn helpdeskuser@asazlab.com "cn=helpdeskuser,ou=Helpdesk,dc=asazlab,dc=com" -fn "Chris" -ln "HelpDeskUser" -disabled no -display "HelpdeskUser" -desc "Helpdesk User" -office "Administration" -title "Controller" -company "DevLabs" -PWD "H3lpD3skPass!"
-                     DSADD user -upn Dataanalyst@asazlab.com "cn=Dataanalyst,ou=Helpdesk,dc=asazlab,dc=com" -fn "Samantha" -ln "Dataanalyst" -disabled no -display "HelpdeskUser" -desc "Helpdesk Analyst" -office "Administration" -title "Controller" -company "DevLabs" -PWD "@nalystsPa55!"
+                     DSADD user -upn Dataanalyst@asazlab.com "cn=Dataanalyst,ou=Helpdesk,dc=asazlab,dc=com" -fn "Samantha" -ln "Dataanalyst" -disabled no -display "DataAnalyst" -desc "Helpdesk Analyst" -office "Administration" -title "Data Analyst" -company "DevLabs" -PWD "@nalystsPa55!Tough"
+                     DSADD user -upn Dataanalystjr@asazlab.com "cn=Dataanalystjr,ou=Helpdesk,dc=asazlab,dc=com" -fn "Benny" -ln "DataanalystJr" -disabled no -display "DataAnalystJr" -desc "Helpdesk Analyst Jr" -office "Administration" -title "Data Analyst Jr" -company "DevLabs" -PWD "jrbuthasareallyG00dP@55ThisTime@!"
 
                      New-ADGroup "usr_helpdesk" -Path "OU=HelpDesk,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
                      New-ADGroup "usr_helpdesk_analysts" -Path "OU=HelpDesk,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
+                     New-ADGroup "usr_helpdesk_analysts_jr" -Path "OU=HelpDesk,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
 
                      New-ADGroup "sec_PWDChangers" -Path "OU=SecurityGroups,OU=Helpdesk,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
                      New-ADGroup "sec_ouadmins" -Path "OU=SecurityGroups,OU=Helpdesk,DC=asazlab,DC=com" -GroupCategory Security -GroupScope DomainLocal -PassThru –Verbose
 
                      ADD-ADGroupMember "sec_PWDChangers" –members "usr_helpdesk"
                      ADD-ADGroupMember "sec_ouadmins" –members "usr_helpdesk_analysts"
+                     ADD-ADGroupMember "usr_helpdesk_analysts" –members "usr_helpdesk_analysts_jr"
 
                      ADD-ADGroupMember "usr_helpdesk" –members "helpdeskuser"
                      ADD-ADGroupMember "usr_helpdesk_analysts" –members "Dataanalyst"
+                     ADD-ADGroupMember "usr_helpdesk_analysts_jr" –members "Dataanalystjr"
 
                      setspn -a ws05/helpdeskuser.asazlab.com:1423 asazlab.com\helpdeskuser
                      setspn -a ws05/Dataanalyst.asazlab.com:2233 asazlab.com\Dataanalyst
