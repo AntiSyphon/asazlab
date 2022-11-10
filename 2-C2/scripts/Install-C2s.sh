@@ -70,6 +70,7 @@ source bh-env/bin/activate
 python3.9 -m pip install wheel
 python3.9 setup.py install
 deactivate
+
 cd /opt/
 
 # neo4j install
@@ -115,7 +116,7 @@ git clone https://github.com/openwall/john -b bleeding-jumbo john
 cd ~/src/john/src
 ./configure && make -s clean && make -sj4
 mkdir /opt/john
-cp ~/src/john/run/ -r /opt/john/
+cp ~/src/john/run/* -r /opt/john/
 
 # setup location hashes
 mkdir /opt/hashes
