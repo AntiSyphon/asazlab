@@ -139,10 +139,8 @@ systemctl stop neo4j
 cd /usr/bin
 echo "dbms.default_listen_address=0.0.0.0" >> /etc/neo4j/neo4j.conf
 
-
 # don't open the console dave. especially not during bootstrap
 systemctl start neo4j
-
 
 # metasploit. 
 sudo -s
@@ -173,10 +171,10 @@ cd ~/src
 git clone https://github.com/openwall/john -b bleeding-jumbo john
 cd ~/src/john/src
 ./configure && make -s clean && make -sj4
+mkdir /opt/john
+cp ~/src/john/run/ -r /opt/john/
 
 
-# snag the hashes artifact archive
-wget https://github.com/DefensiveOrigins/DO-LAB/raw/main/C2/artifacts/hashes.zip -O /opt/hashes.zip
-cd /opt/
-unzip hashes.zip
-rm hashes.zip
+# setup location hashes
+mkdir /opt/hashes
+
