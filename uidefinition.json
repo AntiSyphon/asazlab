@@ -27,6 +27,12 @@
         "constraints": {
           "required": true,
           "validationMessage": "Please enter a valid code ID.",
+          "validations": [
+            {
+              "isValid": "[Contains('ASAZ-ACO','ASAZ-BLANK')]",
+              "Message": "Please enter a valid code ID."
+            }
+          ],
           "allowedValues": [
             "ASAZ-ACO",
             "ASAZ-BLANK"
