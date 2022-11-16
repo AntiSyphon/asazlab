@@ -29,7 +29,7 @@
           "validationMessage": "Please enter a valid code ID.",
           "validations": [
             {
-              "isValid": "[Contains('ASAZ-ACO','ASAZ-BLANK')]",
+              "regex": "^ASAZ-LAB|ASAZ-BLANK",
               "message": "Please enter a valid Antisyphon Class Lab code ID."
             }
           ],
