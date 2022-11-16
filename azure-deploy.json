@@ -65,41 +65,13 @@
   },
   "resources": [
     {
-      "condition": "[equals(parameters('ASAZLabCode'),'ASAZ-ACO')]",
-      "name": "[concat('Deploy-',parameters('ASAZLabCode'))]",
+      "name": "Deploy-ASAZ-ACO",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[variables('uri_asaz-aco')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "vmSize": {
-            "value": "[parameters('vmSize')]"
-          },
-          "allowedIPAddresses": {
-            "value": "[parameters('allowedIPAddresses')]"
-          },
-          "location": {
-            "value": "[parameters('location')]"
-          },
-          "ASAZLabCode": {
-            "value": "[parameters('ASAZLabCode')]"
-          }
-        }
-      }
-    },
-    {
-      "condition": "[equals(parameters('ASAZLabCode'),'ASAZ-TEMP')]",
-      "name": "[concat('Deploy-',parameters('ASAZLabCode'))]",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2020-10-01",
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('uri_asaz-temp')]",
+          "uri": "[variables(toLower(concat('uri_',parameters('ASAZLabCode'))))]",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
