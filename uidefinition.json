@@ -30,6 +30,7 @@
           "allowedValues": [
             "ASAZ-ACO",
             "ASAZ-BLANK"
+          ]
         },
         "visible": true
       }
