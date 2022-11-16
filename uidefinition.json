@@ -1,122 +1,124 @@
 {
-	"$schema": "https://schema.management.azure.com/schemas/0.1.2-preview/CreateUIDefinition.MultiVm.json#",
-	"handler": "Microsoft.Azure.CreateUIDef",
-	"version": "0.1.2-preview",
-	"parameters": {
-		"config": {
-			"isWizard": true,
-			"basics": {
-				"description": "<img width=302 src=\"https://github.com/AntiSyphon/asazlab/raw/main/images/AS.png\">\n\n\n Antisyphon Training Azure Lab Environment\n https://www.asazlab.com",
-				"location": {
-					"label": "Location",
-					"toolTip": "Location for all resources",
-					"resourceTypes": [
-						"Microsoft.OperationalInsights"
-					]
-				},
-				"resourceGroup": {
-					"constraints": {
-						"validations": [
-							{
-								"allowExisting": "false"
-							}
-						]
-					}
-				}
-			},
-			"steps": [
-				{
-					"name": "ASAZLabCode",
-					"type": "Microsoft.Common.TextBox",
-					"label": "Enter your Antisyphon Class Code",
-					"defaultValue": "",
-					"toolTip": "",
-					"visible": "true",
-					"constraints": {
-						"allowedValues": [
-							"ASAZ-ACO",
-							"ASAZ-BLANK"
-						]
-					}
-				},
-				{
-					"name": "vmParameters",
-					"label": "VM Parameters",
-					"elements": [
-						{
-							"name": "vmSection",
-							"type": "Microsoft.Common.Section",
-							"label": "Customize your VM",
-							"elements": [
-								{
-									"name": "vmSize",
-									"type": "Microsoft.Compute.SizeSelector",
-									"label": "Size",
-									"toolTip": "",
-									"recommendedSizes": [
-										"Standard_A2",
-										"Standard_A3",
-										"Standard_B2s",
-										"Standard_B2ms",
-										"Standard_A2_v2",
-										"Standard_A4_v2",
-										"Standard_DS2",
-										"Standard_DS11"
-									],
-									"constraints": {
-										"allowedSizes": [
-											"Standard_A2",
-											"Standard_A3",
-											"Standard_B2s",
-											"Standard_B2ms",
-											"Standard_A2_v2",
-											"Standard_A4_v2",
-											"Standard_DS2",
-											"Standard_DS11"
-										]
-									},
-									"options": {
-										"hideDiskTypeFilter": false
-									},
-									"osPlatform": "Windows",
-									"imageReference": {
-										"publisher": "MicrosoftWindowsServer",
-										"offer": "WindowsServer",
-										"sku": "2012-R2-Datacenter"
-									},
-									"count": 1,
-									"visible": true
-								}
-							],
-							"visible": true
-						}
-					]
-				},
-				{
-					"name": "networkParameters",
-					"label": "Networking",
-					"elements": [
-						{
-							"name": "allowedIPAddresses",
-							"type": "Microsoft.Common.TextBox",
-							"label": "Allowed IP Addresses",
-							"placeholder": "0.0.0.0/0",
-							"defaultValue": "0.0.0.0/0",
-							"toolTip": "The sourceAddressPrefixes allowed to connect to this deployment. Enter 0.0.0.0/0 to allow any internet address to access the lab.",
-							"constraints": {
-								"required": true,
-								"regex": "^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(?:\\/(\\d|[12]\\d|3[01]))?$",
-								"validationMessage": "Please enter a valid CIDR."
-							},
-							"visible": true
-						}
-					]
-				}
-			],
-			"outputs": {
-				"ASAZLabCode": "[steps.ASAZLabCode]",
-				"vmSize": "[steps('vmParameters').vmSection.vmSize]",
-				"allowedIPAddresses": "[steps('networkParameters').allowedIPAddresses]"
-			}
-	}
+  "$schema": "https://schema.management.azure.com/schemas/0.1.2-preview/CreateUIDefinition.MultiVm.json#",
+  "handler": "Microsoft.Azure.CreateUIDef",
+  "version": "0.1.2-preview",
+  "parameters": {
+    "config": {
+      "isWizard": true,
+      "basics": {
+        "description": "<img width=302 src=\"https://github.com/AntiSyphon/asazlab/raw/main/images/AS.png\">\n\n\n Antisyphon Training Azure Lab Environment\n https://www.asazlab.com",
+        "location": {
+          "label": "Location",
+          "toolTip": "Location for all resources",
+          "resourceTypes": [
+            "Microsoft.OperationalInsights"
+          ]
+        },
+        "resourceGroup": {
+          "constraints": {
+            "validations": [
+              {
+                "allowExisting": "false"
+              }
+            ]
+          }
+        }
+      },
+      "steps": [
+        {
+          "name": "ASAZLabCode",
+          "type": "Microsoft.Common.TextBox",
+          "label": "Enter your Antisyphon Class Code",
+          "defaultValue": "",
+          "toolTip": "",
+          "visible": "true",
+          "constraints": {
+            "allowedValues": [
+              "ASAZ-ACO",
+              "ASAZ-BLANK"
+            ]
+          }
+        },
+        {
+          "name": "vmParameters",
+          "label": "VM Parameters",
+          "elements": [
+            {
+              "name": "vmSection",
+              "type": "Microsoft.Common.Section",
+              "label": "Customize your VM",
+              "elements": [
+                {
+                  "name": "vmSize",
+                  "type": "Microsoft.Compute.SizeSelector",
+                  "label": "Size",
+                  "toolTip": "",
+                  "recommendedSizes": [
+                    "Standard_A2",
+                    "Standard_A3",
+                    "Standard_B2s",
+                    "Standard_B2ms",
+                    "Standard_A2_v2",
+                    "Standard_A4_v2",
+                    "Standard_DS2",
+                    "Standard_DS11"
+                  ],
+                  "constraints": {
+                    "allowedSizes": [
+                      "Standard_A2",
+                      "Standard_A3",
+                      "Standard_B2s",
+                      "Standard_B2ms",
+                      "Standard_A2_v2",
+                      "Standard_A4_v2",
+                      "Standard_DS2",
+                      "Standard_DS11"
+                    ]
+                  },
+                  "options": {
+                    "hideDiskTypeFilter": false
+                  },
+                  "osPlatform": "Windows",
+                  "imageReference": {
+                    "publisher": "MicrosoftWindowsServer",
+                    "offer": "WindowsServer",
+                    "sku": "2012-R2-Datacenter"
+                  },
+                  "count": 1,
+                  "visible": true
+                }
+              ],
+              "visible": true
+            }
+          ]
+        },
+        {
+          "name": "networkParameters",
+          "label": "Networking",
+          "elements": [
+            {
+              "name": "allowedIPAddresses",
+              "type": "Microsoft.Common.TextBox",
+              "label": "Allowed IP Addresses",
+              "placeholder": "0.0.0.0/0",
+              "defaultValue": "0.0.0.0/0",
+              "toolTip": "The sourceAddressPrefixes allowed to connect to this deployment. Enter 0.0.0.0/0 to allow any internet address to access the lab.",
+              "constraints": {
+                "required": true,
+                "regex": "^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(?:\\/(\\d|[12]\\d|3[01]))?$",
+                "validationMessage": "Please enter a valid CIDR."
+              },
+              "visible": true
+            }
+          ]
+        }
+      ],
+      "outputs": {
+        "ASAZLabCode": "[steps.ASAZLabCode]",
+        "vmSize": "[steps('vmParameters').vmSection.vmSize]",
+        "allowedIPAddresses": "[steps('networkParameters').allowedIPAddresses]"
+      }
+    }
+  }
 }
+
