@@ -26,10 +26,10 @@
 			},
 			"steps": [
 				{
-					"name": "Enter ASAZ Class Lab Code",
+					"name": "ASAZLabCode",
 					"type": "Microsoft.Common.TextBox",
-					"label": "Class Code",
-					"defaultValue": "my text value",
+					"label": "Enter your Antisyphon Class Code",
+					"defaultValue": "",
 					"toolTip": "",
 					"visible": "true",
 					"constraints": {
@@ -102,7 +102,7 @@
 							"label": "Allowed IP Addresses",
 							"placeholder": "0.0.0.0/0",
 							"defaultValue": "0.0.0.0/0",
-							"toolTip": "The sourceAddressPrefixes allowed to connect to this deployment.",
+							"toolTip": "The sourceAddressPrefixes allowed to connect to this deployment. Enter 0.0.0.0/0 to allow any internet address to access the lab.",
 							"constraints": {
 								"required": true,
 								"regex": "^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(?:\\/(\\d|[12]\\d|3[01]))?$",
@@ -113,10 +113,10 @@
 					]
 				}
 			],
-		"outputs": {
-			"workspaceName": "[steps('basics').workspaceName]",
-			"vmSize": "[steps('vmParameters').vmSection.vmSize]",
-			"allowedIPAddresses": "[steps('networkParameters').allowedIPAddresses]"
-		}
+			"outputs": {
+				"ASAZLabCode": "[steps.ASAZLabCode]",
+				"vmSize": "[steps('vmParameters').vmSection.vmSize]",
+				"allowedIPAddresses": "[steps('networkParameters').allowedIPAddresses]"
+			}
 	}
 }
