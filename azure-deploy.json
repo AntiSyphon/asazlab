@@ -65,7 +65,7 @@
   "resources": [
     {
       "condition": "[equals(parameters('ASAZLabCode'),'ASAZ-ACO')]",
-      "name": "Deploy-ASAZ-ACO",
+      "name": "[concat('Deploy-',parameters('ASAZLabCode'))]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "properties": {
@@ -92,17 +92,9 @@
     }
   ],
   "outputs": {
-    "C2PublicIP": {
+    "Build Information": {
       "type": "string",
-      "value": "[reference('deployC2').outputs.C2PublicIP.value]"
-    },
-    "DCPublicIP": {
-      "type": "string",
-      "value": "[reference('deployWinAD').outputs.DCPublicIP.value]"
-    },
-    "WSPublicIP": {
-      "type": "string",
-      "value": "[reference('deployWinAD').outputs.WSPublicIP.value]"
+      "value": "[reference(concat('Deploy-',parameters('ASAZLabCode'))).outputs.buildinfo.value]"
     }
   }
 }
