@@ -17,14 +17,16 @@
         "description": "Pricing tier: pergb2018 or legacy tiers (Free, Standalone, PerNode, Standard or Premium) which are not available to all customers."
       }
     },
-    "dataRetention": {
-      "type": "int",
-      "defaultValue": 30
-    },
     "allowedIPAddresses": {
       "type": "string",
       "metadata": {
         "description": "The sourceAddressPrefixes allowed to connect to this deployment"
+      }
+    },
+    "ASAZLabCode": {
+      "type": "string",
+      "metadata": {
+        "description": "The Antisyphon Class Lab Code ID"
       }
     },
     "windowsServerVersion": {
@@ -70,7 +72,7 @@
       "type": "bool",
       "defaultValue": false
     },
-     "doimmediatePurgeDataOn30Days": {
+    "doimmediatePurgeDataOn30Days": {
       "type": "bool",
       "defaultValue": true
     },
@@ -91,7 +93,6 @@
     "asfqdn": "asazlab.com",
     "asc2": "metasploit",
     "asc2ubuntusku": "20_04-lts",
-    "asworkspaceprefix": "LA-workspace",
     "asremoteaccessmode": "AllowPublicIP"
   },
   "resources": [
