@@ -65,7 +65,7 @@
   },
   "resources": [
     {
-      "name": "Deploy-ASAZ-ACO",
+      "name": "[concat('Deploy-',parameters('ASAZLabCode'))]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "properties": {
