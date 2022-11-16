@@ -92,9 +92,5 @@
     }
   ],
   "outputs": {
-    "Build Information": {
-      "type": "string",
-      "value": "[reference(concat('Deploy-',parameters('ASAZLabCode'))).outputs.buildinfo.value]"
-    }
   }
 }
