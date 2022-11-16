@@ -17,24 +17,7 @@ NOTE: Deployment times vary, but expect the full deployment in the Azure cloud t
 Are you attending an Antisyphon Training course that utilizes the Antisyhpon Training Azure Lab Environment?  See the below links for additional information on the DOAZLab Pre-Requisites for Defensive Origins training courses. 
 * https://github.com/AntiSyphon/asazlab-prereqs
 
-## Location
-While the deployment within Azure should be region agnostic, some deployed resources may not be available in all regions.
-The following locations have specifically been tested:
-* US EAST (any)
-* US WEST (any)
 
-# Components
-* Windows Server /w Active Directory.
-  * Domain: asazlab.com
-* Windows Workstation 21h1-pro
-
-# Acknowledgments
-* Open Threat Research Forge: https://github.com/OTRF
-* Microsoft Sentinel2Go: https://github.com/OTRF/Microsoft-Sentinel2Go
-* OTRF Blacksmith Components: https://github.com/OTRF/Blacksmith
-* Roberto Rodriguez (@Cyb3rWard0g)
-* Sysmon Modular: https://github.com/olafhartong/sysmon-modular/wiki 
-* Defensive Origins: https://defensiveorigins.com/
 
 # License
  * GPLv3
