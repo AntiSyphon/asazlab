@@ -60,7 +60,7 @@
     }
   },
   "variables": {
-    "uri_asaz-aco": "https://raw.githubusercontent.com/AntiSyphon/asazlab-aco/main/1-AD/1-AD-azuredeploy.json"
+    "uri_asaz-aco": "https://raw.githubusercontent.com/AntiSyphon/asaz-aco/main/azure-deploy.json"
   },
   "resources": [
     {
