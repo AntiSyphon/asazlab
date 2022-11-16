@@ -34,17 +34,6 @@
         "description": "The Antisyphon Class Lab Code ID"
       }
     },
-    "windowsServerVersion": {
-      "type": "string",
-      "defaultValue": "latest",
-      "allowedValues": [
-        "17763.1999.2106060321",
-        "latest"
-      ],
-      "metadata": {
-        "description": "The specific version for the Server VM."
-      }
-    },
     "vmSize": {
       "type": "string",
       "defaultValue": "Standard_B2s",
@@ -68,160 +57,35 @@
       "metadata": {
         "description": "Location for all resources."
       }
-    },
-    "doenablesysmon": {
-      "type": "bool",
-      "defaultValue": true
-    },
-    "dowscount": {
-      "type": "int",
-      "defaultValue": 1
     }
   },
   "variables": {
-    "uri_azure_win10_ad": "https://raw.githubusercontent.com/AntiSyphon/asazlab/main/1-AD/1-AD-azuredeploy.json",
-    "uri_azure_c2": "https://raw.githubusercontent.com/AntiSyphon/asazlab/main/2-C2/2-C2-azuredeploy.json",
-    "asadminusername": "asadmin",
-    "asadminpassword": "asLabAdmin1!",
-    "asnameprefix": "WS0",
-    "asWSKU": "21h1-pro",
-    "asServerSKU": "2019-Datacenter",
-    "asServerVer": "latest",
-    "asfqdn": "asazlab.com",
-    "asc2": "metasploit",
-    "asc2ubuntusku": "20_04-lts",
-    "asremoteaccessmode": "AllowPublicIP"
+    "uri_asaz-aco": "https://raw.githubusercontent.com/AntiSyphon/asazlab-aco/main/1-AD/1-AD-azuredeploy.json",
   },
   "resources": [
     {
-      "name": "deployWinAD",
+      "name": "Deploy-ASAZ-ACO",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[variables('uri_azure_win10_ad')]",
+          "uri": "[variables('uri_asaz-aco')]",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
-          "adminUsername": {
-            "value": "[variables('asadminusername')]"
-          },
-          "adminPassword": {
-            "value": "[variables('asadminpassword')]"
-          },
-          "numberOfWorkstations": {
-            "value": "[parameters('dowscount')]"
-          },
-          "vmNamePrefix": {
-            "value": "[variables('asnameprefix')]"
-          },
-          "windowsDesktopSKU": {
-            "value": "[variables('asWSKU')]"
-          },
-          "windowsServerSKU": {
-            "value": "[variables('asServerSKU')]"
-          },
           "vmSize": {
             "value": "[parameters('vmSize')]"
           },
-          "windowsServerVersion": {
-            "value": "[parameters('windowsServerVersion')]"
-          },
-          "domainFQDN": {
-            "value": "[variables('asfqdn')]"
-          },
-          "identityType": {
-            "value": "SystemAssigned"
-          },
-          "remoteAccessMode": {
-            "value": "[variables('asremoteaccessmode')]"
-          },
           "allowedIPAddresses": {
             "value": "[parameters('allowedIPAddresses')]"
-          },
-          "enableSysmon": {
-            "value": "[parameters('doenablesysmon')]"
           },
           "location": {
             "value": "[parameters('location')]"
+          },
+          "ASAZLabCode": {
+            "value": "[parameters('ASAZLabCode')]"
           }
-        }
-      }
-    },
-    {
-      "name": "deployC2",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2020-10-01",
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('uri_azure_c2')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "adminUsername": {
-            "value": "[variables('asadminusername')]"
-          },
-          "authenticationType": {
-            "value": "password"
-          },
-          "adminPasswordOrKey": {
-            "value": "[variables('asadminpassword')]"
-          },
-          "vmName": {
-            "value": "Nux01"
-          },
-          "ubuntuSKU": {
-            "value": "[variables('asc2ubuntusku')]"
-          },
-          "vmSize": {
-            "value": "[parameters('vmSize')]"
-          },
-          "allowedIPAddresses": {
-            "value": "[parameters('allowedIPAddresses')]"
-          },
-          "c2Framework": {
-            "value": "[variables('asc2')]"
-          }
-        }
-      }
-    },
-    {
-      "name": "vnet-c2/peering-to-remote-vnet-win",
-      "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
-      "apiVersion": "2019-11-01",
-      "dependsOn": [
-        "deployC2",
-        "deployWinAD"
-      ],
-      "location": "[parameters('location')]",
-      "properties": {
-        "allowVirtualNetworkAccess": true,
-        "allowForwardedTraffic": false,
-        "allowGatewayTransit": false,
-        "useRemoteGateways": false,
-        "remoteVirtualNetwork": {
-          "id": "[reference('deployWinAD').outputs.virtualNetworkId.value]"
-        }
-      }
-    },
-    {
-      "name": "vnet-win/peering-to-remote-vnet-c2",
-      "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
-      "apiVersion": "2019-11-01",
-      "dependsOn": [
-        "deployC2",
-        "deployWinAD"
-      ],
-      "location": "[parameters('location')]",
-      "properties": {
-        "allowVirtualNetworkAccess": true,
-        "allowForwardedTraffic": false,
-        "allowGatewayTransit": false,
-        "useRemoteGateways": false,
-        "remoteVirtualNetwork": {
-          "id": "[if(not(equals(variables('asc2'), 'None')), reference('deployC2').outputs.virtualNetworkId.value, 'Resource not deployed')]"
         }
       }
     }
