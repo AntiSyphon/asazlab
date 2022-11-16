@@ -25,6 +25,11 @@
     },
     "ASAZLabCode": {
       "type": "string",
+      "allowedValues": [
+        "ASAZ-ACO",
+        "ASAZ-BLANK"
+      ],
+      "defaultValue": "ASAZ-",
       "metadata": {
         "description": "The Antisyphon Class Lab Code ID"
       }
@@ -65,14 +70,6 @@
       }
     },
     "doenablesysmon": {
-      "type": "bool",
-      "defaultValue": true
-    },
-    "doenablesysmonparsers": {
-      "type": "bool",
-      "defaultValue": false
-    },
-    "doimmediatePurgeDataOn30Days": {
       "type": "bool",
       "defaultValue": true
     },
