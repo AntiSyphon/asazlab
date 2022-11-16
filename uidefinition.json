@@ -32,10 +32,12 @@
 					"defaultValue": "my text value",
 					"toolTip": "",
 					"visible": "true",
-					"allowedValues": [
-						"ASAZ-ACO",
-						"ASAZ-BLANK"
-					]
+					"constraints": {
+						"allowedValues": [
+							"ASAZ-ACO",
+							"ASAZ-BLANK"
+						]
+					}
 				},
 				{
 					"name": "vmParameters",
