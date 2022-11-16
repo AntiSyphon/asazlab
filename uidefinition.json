@@ -29,13 +29,13 @@
           "validationMessage": "Please enter a valid code ID.",
           "validations": [
             {
-              "regex": "^ASAZ-ACO|ASAZ-BLANK",
+              "regex": "^ASAZ-ACO|ASAZ-TEMP",
               "message": "Please enter a valid Antisyphon Class Lab code ID."
             }
           ],
           "allowedValues": [
             "ASAZ-ACO",
-            "ASAZ-BLANK"
+            "ASAZ-TEMP"
           ]
         },
         "visible": true

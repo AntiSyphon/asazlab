@@ -27,7 +27,7 @@
       "type": "string",
       "allowedValues": [
         "ASAZ-ACO",
-        "ASAZ-BLANK"
+        "ASAZ-TEMP"
       ],
       "defaultValue": "ASAZ-",
       "metadata": {
@@ -60,7 +60,8 @@
     }
   },
   "variables": {
-    "uri_asaz-aco": "https://raw.githubusercontent.com/AntiSyphon/asaz-aco/main/azure-deploy.json"
+    "uri_asaz-aco": "https://raw.githubusercontent.com/AntiSyphon/asaz-aco/main/azure-deploy.json",
+    "uri_asaz-temp": "https://raw.githubusercontent.com/AntiSyphon/asaz-temp/main/azure-deploy.json"
   },
   "resources": [
     {
@@ -72,6 +73,33 @@
         "mode": "Incremental",
         "templateLink": {
           "uri": "[variables('uri_asaz-aco')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "vmSize": {
+            "value": "[parameters('vmSize')]"
+          },
+          "allowedIPAddresses": {
+            "value": "[parameters('allowedIPAddresses')]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "ASAZLabCode": {
+            "value": "[parameters('ASAZLabCode')]"
+          }
+        }
+      }
+    },
+    {
+      "condition": "[equals(parameters('ASAZLabCode'),'ASAZ-TEMP')]",
+      "name": "[concat('Deploy-',parameters('ASAZLabCode'))]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('uri_asaz-temp')]",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
