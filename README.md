@@ -15,7 +15,7 @@ NOTE: Deployment times vary, but expect the full deployment in the Azure cloud t
 
 ## Training Course Pre-Requisites
 Are you attending an Antisyphon Training course that utilizes the Antisyhpon Training Azure Lab Environment?  See the below links for additional information on the DOAZLab Pre-Requisites for Defensive Origins training courses. 
-* https://github.com/AntiSyphon/asazlab-prereqs
+* https://prereq.asazlab.com/
 
 
 
